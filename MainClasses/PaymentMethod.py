@@ -1,7 +1,7 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 
 
-class PaymentMethod:
+class PaymentMethod(ABC):
     """
     Abstract class for implementing a strategy pattern for payment methods.
     """
