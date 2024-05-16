@@ -1,12 +1,13 @@
 from ..DatabaseConnection import DatabaseConnection
 from ..MainClasses.Reservation import Reservation
+from typing import List
 
 
 class ReservationManager:
 
     def __init__(self, db: DatabaseConnection):
         self.db: DatabaseConnection = db
-        self.reservations: list(Reservation) = []
+        self.reservations: List[Reservation] = []
 
     def addReservation(reservation: Reservation):
         pass
@@ -19,5 +20,8 @@ class ReservationManager:
         pass
 
     # TODO: add get a single reservation function?????
-    def getReservations():
+    def getReservations() -> List[Reservation]:
+        pass
+
+    def getReservation() -> Reservation:
         pass

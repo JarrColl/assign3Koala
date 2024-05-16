@@ -1,21 +1,22 @@
 from ..DatabaseConnection import DatabaseConnection
 from ..MainClasses.MenuItem import MenuItem
+from typing import List
 
 
 class MenuManager:
 
     def __init__(self, db: DatabaseConnection):
         self.db: DatabaseConnection = db
-        self.items: list(MenuItem) = []
+        self.items: List[MenuItem] = []
 
-    def addItem(item: MenuItem):
+    def addItem(self, item: MenuItem):
+        self.items.append(item)
+
+    def removeItem(self, id: int):
         pass
 
-    def removeItem(id: int):
+    def editItem(self, item: MenuItem):
         pass
 
-    def editItem(item: MenuItem):
-        pass
-
-    def getItem(id: int) -> MenuItem:
+    def getItem(self, id: int) -> MenuItem:
         pass
