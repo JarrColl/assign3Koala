@@ -1,17 +1,15 @@
 class DeliveryDriver:
 
-    def __init__(self, id, name, description):
+    def __init__(self, id: int, name: str, description: str):
         self.id = id
         self.name = name
         self.description = description
 
-    def getId(self):
+    def getId(self) -> int:
         return self.id
 
-    def getName(self):
+    def getName(self) -> str:
         return self.name
 
-    def getDescription(self):
+    def getDescription(self) -> str:
         return self.description
-
-

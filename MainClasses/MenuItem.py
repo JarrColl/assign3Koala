@@ -1,22 +1,20 @@
 class MenuItem:
-    def __init__(self, id, name, price):
-        self.id = id
-        self.name = name
-        self.price = price
+    def __init__(self, id: int, name: str, price: float):
+        self.id: int = id
+        self.name: str = name
+        self.price: float = price
 
-    def getId(self):
+    def getId(self) -> int:
         return self.id
 
-    def getName(self):
+    def getName(self) -> str:
         return self.name
 
-    def setName(self, name):
+    def setName(self, name: str):
         self.name = name
 
-    def getPrice(self):
+    def getPrice(self) -> float:
         return self.price
 
-    def setPrice(self, price):
+    def setPrice(self, price: float):
         self.price = price
-
-

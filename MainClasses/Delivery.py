@@ -1,30 +1,30 @@
 from typing import List
 from Order import Order
+from ..MainClasses.DeliveryDriver import DeliveryDriver
+
 
 class Delivery:
 
-    def __init__(self, id, order, status):
-        self.id = id
-        self.status = status
-        self.driver = None
-        self.order = order
+    def __init__(self, id: int, order: Order, status: str):
+        self.id: int = id
+        self.status: str = status
+        self.delivery_driver: DeliveryDriver = None
+        self.order: Order = order
 
-
-    def getId(self):
+    def getId(self) -> int:
         return self.id
 
-    def getOrder(self):
+    def getOrder(self) -> Order:
         return self.order
 
-    def getDriver(self):
+    def getDeliveryDriver(self) -> DeliveryDriver:
         return self.driver
 
-    def setDriver(self, driver):
+    def setDeliveryDriver(self, driver: DeliveryDriver):
         self.driver = driver
 
-    def getStatus(self):
+    def getStatus(self) -> str:
         return self.status
 
-    def setStatus(self, status):
+    def setStatus(self, status: str):
         self.status = status
-
