@@ -9,19 +9,23 @@ class ReservationManager:
         self.db: DatabaseConnection = db
         self.reservations: List[Reservation] = []
 
-    def addReservation(reservation: Reservation):
-        pass
+    def addReservation(self, reservation: Reservation):
+        self.reservations.append(reservation)
 
-    def removeReservation(id: int):
-        pass
+    def removeReservation(self, id: int):
+        for i in range(0, len(self.reservations)):
+            if self.reservations[i].id == id:
+                self.reservations.remove(i)
 
-    # TODO: add the args
-    def editReservation():
-        pass
+    def editReservation(self, reservation: Reservation):
+        for i in range(0, len(self.reservations)):
+            if self.reservations[i].id == reservation.id:
+                self.reservations[i] = reservation
 
-    # TODO: add get a single reservation function?????
-    def getReservations() -> List[Reservation]:
-        pass
+    def getReservations(self) -> List[Reservation]:
+        return self.reservations
 
-    def getReservation() -> Reservation:
-        pass
+    def getReservation(self, id: int) -> Reservation:
+        for i in range(0, len(self.reservations)):
+            if self.reservations[i].id == id:
+                return self.reservations[i]

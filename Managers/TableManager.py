@@ -9,17 +9,23 @@ class TableManager:
         self.db: DatabaseConnection = db
         self.tables: List[Table] = []
 
-    def addTable(table: Table):
-        pass
+    def addTable(self, table: Table):
+        self.tables.append(table)
 
-    def removeTable(id: int):
-        pass
+    def removeTable(self, id: int):
+        for i in range(0, len(self.tables)):
+            if self.tables[i].id == id:
+                self.tables.remove(i)
 
-    def editTable():
-        pass
+    def editTable(self, table: Table):
+        for i in range(0, len(self.tables)):
+            if self.tables[i].id == id:
+                self.tables[i] = table
 
-    def getTables() -> List[Table]:
-        pass
+    def getTables(self) -> List[Table]:
+        return self.tables
 
-    def getTable() -> Table:
-        pass
+    def getTable(self, id: int) -> Table:
+        for i in range(0, len(self.tables)):
+            if self.tables[i].id == id:
+                return self.tables[id]

@@ -13,10 +13,17 @@ class MenuManager:
         self.items.append(item)
 
     def removeItem(self, id: int):
-        pass
+        for i in range(0, len(self.items)):
+            if self.items[i].id == id:
+                self.items.remove(i)
+                break
 
     def editItem(self, item: MenuItem):
-        pass
+        for i in range(0, len(self.items)):
+            if self.items[i].id == item.id:
+                self.items[i] = item
 
     def getItem(self, id: int) -> MenuItem:
-        pass
+        for i in range(0, len(self.items)):
+            if self.items[i].id == id:
+                return self.items[i]
