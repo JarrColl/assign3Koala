@@ -11,7 +11,7 @@ class LoginManager:
     def login(self, username: str, password: str):
         staff_list = self.db.getTableData("staff")
         # TODO: When the staff object is created, use the read in data to create the staff object and store it.
-        next(
+        staff_dict = next(
             (
                 staff
                 for staff in staff_list
@@ -19,6 +19,8 @@ class LoginManager:
             ),
             None,
         )
+        role = Role()  # TODO: once role class is made
+        self.staff = Staff(staff_dict["name"], role)
 
     def checkAccess(self, staff: Staff, permission: str):
         pass
