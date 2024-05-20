@@ -7,5 +7,5 @@ class PaymentMethod(ABC):
     """
 
     @abstractmethod
-    def makePayment():
+    def makePayment() -> bool:
         pass
