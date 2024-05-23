@@ -1,5 +1,6 @@
 import json
 import os
+from typing import List
 
 
 class SingletonMeta(type):
@@ -33,7 +34,7 @@ class DatabaseConnection(metaclass=SingletonMeta):
     def getTableData(self, name: str):
         return json.load(self._getFile(name, "r"))
 
-    def writeTableData(self, name: str, data: list):
+    def writeTableData(self, name: str, data: List):
         file_path = self.DATABASE_FILE_DIRECTORY + "/" + name + ".json"
         with open(file_path, "w") as file:
             json.dump(data, file)
