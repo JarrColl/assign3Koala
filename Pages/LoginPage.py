@@ -1,3 +1,6 @@
+# Ask user if the are a customer or a staff member. Staff must login.
+#
+#
 from Page import Page
 import os
 from ..Managers.LoginManager import LoginManager

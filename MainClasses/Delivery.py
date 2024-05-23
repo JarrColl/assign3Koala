@@ -2,12 +2,13 @@ from typing import List
 from Order import Order
 from ..MainClasses.DeliveryDriver import DeliveryDriver
 
+#TODO: change isDelivered to isDelivered
 
 class Delivery:
 
-    def __init__(self, id: int, order: Order, status: str):
+    def __init__(self, id: int, order: Order, isDelivered: bool):
         self.id: int = id
-        self.status: str = status
+        self.isDelivered: str = isDelivered
         self.delivery_driver: DeliveryDriver = None
         self.order: Order = order
 
@@ -23,8 +24,8 @@ class Delivery:
     def setDeliveryDriver(self, driver: DeliveryDriver):
         self.driver = driver
 
-    def getStatus(self) -> str:
-        return self.status
+    def getIsDelivered(self) -> str:
+        return self.isDelivered
 
-    def setStatus(self, status: str):
-        self.status = status
+    def setIsDelivered(self, isDelivered: str):
+        self.isDelivered = isDelivered
