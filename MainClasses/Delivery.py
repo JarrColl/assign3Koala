@@ -1,6 +1,6 @@
 from typing import List
 from Order import Order
-from ..MainClasses.DeliveryDriver import DeliveryDriver
+from MainClasses.DeliveryDriver import DeliveryDriver
 
 #TODO: change isDelivered to isDelivered
 

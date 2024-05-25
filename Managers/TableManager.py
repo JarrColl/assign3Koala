@@ -1,5 +1,5 @@
-from ..DatabaseConnection import DatabaseConnection
-from ..MainClasses.Table import Table
+from DatabaseConnection import DatabaseConnection
+from MainClasses.Table import Table
 from typing import List
 
 

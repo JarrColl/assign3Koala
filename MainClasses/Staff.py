@@ -1,4 +1,4 @@
-from Role import Role
+from MainClasses.Role import Role
 
 
 class Staff:

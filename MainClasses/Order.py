@@ -1,9 +1,9 @@
 from typing import List
 
-from ..MainClasses.Cart import Cart
-from ..MainClasses.Invoice import Invoice
-from ..MainClasses.Delivery import Delivery
-from ..MainClasses.Table import Table
+from MainClasses.Cart import Cart
+from MainClasses.Invoice import Invoice
+from MainClasses.Delivery import Delivery
+from MainClasses.Table import Table
 from MenuItem import MenuItem
 
 

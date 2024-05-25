@@ -1,5 +1,5 @@
-from ..DatabaseConnection import DatabaseConnection
-from ..MainClasses.MenuItem import MenuItem
+from DatabaseConnection import DatabaseConnection
+from MainClasses.MenuItem import MenuItem
 from typing import List
 
 

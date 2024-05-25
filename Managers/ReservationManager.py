@@ -1,5 +1,5 @@
-from ..DatabaseConnection import DatabaseConnection
-from ..MainClasses.Reservation import Reservation
+from DatabaseConnection import DatabaseConnection
+from MainClasses.Reservation import Reservation
 from typing import List
 
 
