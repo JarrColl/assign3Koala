@@ -1,7 +1,7 @@
 class Table:
-    def __init__(self, table_id: int, status: str):
-        self._id = table_id
-        self._status = status
+    def __init__(self, id: int, status: str):
+        self._id: int = id
+        self._status: str = status
     
     def getId(self) -> int:
         return self._id

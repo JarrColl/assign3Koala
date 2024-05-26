@@ -12,17 +12,16 @@ class Order:
         self,
         id: int,
         cart: Cart,
-        invoice: Invoice,
         status: str,
+        table: Table,
         delivery: Delivery = None,
-        table: Table = None,
     ):
-        self.menu_items: List[MenuItem] = cart.getAllItems()
         self.id: int = id
-        self.invoice: Invoice = invoice
+        self.menu_items: List[MenuItem] = cart.getAllItems()
+        self.invoice: Invoice = None
         self.delivery: Delivery = delivery
         self.table: Table = table
-        self.status: str = status
+        self.status: str = status # Cooking, Cooked, Paid
 
     def getAllItems(self) -> List[MenuItem]:
         return self.menu_items
@@ -33,20 +32,24 @@ class Order:
     def getInvoice(self) -> Invoice:
         return self.invoice
 
+    def setInvoice(self, invoice: Invoice):
+        self.invoice = invoice
+
     def getDelivery(self) -> Delivery:
         return self.delivery
 
     def getStatus(self) -> str:
         return self.status
 
-    def getTable(self) -> Table:
-        return self.table
-
     def setStatus(self, status: str):
         self.status = status
+
+    def getTable(self) -> Table:
+        return self.table
 
     def getTotalCost(self):
         total = 0
         for item in self.menu_items:
             total += item.getPrice()
         return total
+

@@ -1,5 +1,6 @@
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Staff import Staff
+from MainClasses.Role import Role
 
 
 class LoginManager:
@@ -20,11 +21,19 @@ class LoginManager:
             None,
         )
         if staff_dict:
-            role = Role()  # TODO: once role class is made
-            self.staff = Staff(staff_dict["name"], role)
+            role_list = self.db.getTableData("roles")
+            role_dict = next(
+                (
+                    role for role in role_list
+                    if (role["id"] == staff_dict["id"])
+                ),
+                None,
+            )
+            role = Role(role_dict["id"], role_dict["name"], role_dict["description"])
+            self.staff = Staff(staff_dict["id"], staff_dict["name"], role)
             return True
 
         return False
 
-    def checkAccess(self, staff: Staff, permission: str):
+    def checkAccess(self, staff: Staff, role: Role):
         pass

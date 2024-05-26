@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 from DatabaseConnection import DatabaseConnection
 from Managers.LoginManager import LoginManager
@@ -6,8 +7,18 @@ from Managers.LoginManager import LoginManager
 from OptionSelection import OptionSelection
 from Pages.LoginPage import LoginPage
 
-CUSTOMER_OPTIONS = ["View the Menu"]
-STAFF_OPTIONS = [
+# from Pages.DeliveryPage import DeliveryPage
+# from Pages.KitchenPage import KitchenPage
+# from Pages.MenuPage import MenuPage
+from Pages.OrderPage import OrderPage
+# from Pages.ReservationPage import ReservationPage
+# from Pages.StaffPage import StaffPage
+from Pages.Page import Page
+from Pages.TablePage import TablePage
+
+
+CUSTOMER_OPTIONS: List[str] = ["View the Menu"]
+STAFF_OPTIONS: List[str] = [
     "Deliveries",
     "Kitchen Orders",
     "View the Menu",
@@ -16,10 +27,13 @@ STAFF_OPTIONS = [
     "Staff Management",
     "Table Management",
 ]
+CUSTOMER_PAGES: List[Page] = [None]
+STAFF_PAGES: List[Page] = [None, None, None, OrderPage, None, None, TablePage]
 
 db = DatabaseConnection()
 login_manager = LoginManager(db)
 
+os.system("cls" if os.name == "nt" else "clear")
 # Check if staff or customer
 user_type = None
 while True:
@@ -31,13 +45,19 @@ while True:
         user_type = "staff"
         break
 
-options_list = None
+options_list: List[str] = None
+page_list: List[Page] = None
 if user_type == "staff":
     LoginPage.display(login_manager)
     options_list = STAFF_OPTIONS
+    page_list = STAFF_PAGES
 elif user_type == "customer":
     options_list = CUSTOMER_OPTIONS
+    page_list = CUSTOMER_PAGES
 
 while True:
     os.system("cls" if os.name == "nt" else "clear")
-    OptionSelection.show(options_list)
+    page_index = OptionSelection.show(options_list)
+    os.system("cls" if os.name == "nt" else "clear")
+    page_list[page_index].display(login_manager)
+
