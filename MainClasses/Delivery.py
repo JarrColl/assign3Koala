@@ -1,20 +1,19 @@
-from MainClasses.Order import Order
 from MainClasses.DeliveryDriver import DeliveryDriver
 
 #TODO: change isDelivered to isDelivered
 
 class Delivery:
 
-    def __init__(self, id: int, order: Order, isDelivered: bool):
+    def __init__(self, id: int, order: int, isDelivered: bool):
         self.id: int = id
         self.isDelivered: str = isDelivered
         self.delivery_driver: DeliveryDriver = None
-        self.order: Order = order
+        self.orderId: int = order
 
     def getId(self) -> int:
         return self.id
 
-    def getOrder(self) -> Order:
+    def getOrder(self) -> int:
         return self.order
 
     def getDeliveryDriver(self) -> DeliveryDriver:
