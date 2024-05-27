@@ -5,25 +5,28 @@ from MainClasses.Cart import Cart
 from MainClasses.Invoice import Invoice
 from MainClasses.MenuItem import MenuItem
 from MainClasses.Table import Table
+from MainClasses.Delivery import Delivery
 
 db = DatabaseConnection()
 class Order:
     def __init__(
         self,
-        cart: Cart,
+        id: int,
+        menu_items: List[MenuItem],
         status: str,
-        table: Table,
+        tableId: int,
+        delivery: Delivery = None,
+        cart: Cart = None
     ):
-        # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because 
+        # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
-        order_dict = db.getTableData("orders")
+        #order_dict = db.getTableData("orders")
         # TODO: FINISH THIS
-        # self.id: int = 
-        
-
-        self.menu_items: List[MenuItem] = cart.getAllItems()
+        self.id: int = id
+        self.menu_items: List[MenuItem] = menu_items
         self.invoice: Invoice = None
-        self.table: Table = table
+        self.delivery: Delivery = delivery
+        self.table: int = tableId
         self.status: str = status # Cooking, Cooked, Paid
 
     def getAllItems(self) -> List[MenuItem]:
