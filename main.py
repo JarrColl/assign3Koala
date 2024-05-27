@@ -3,7 +3,6 @@ from typing import List
 
 from DatabaseConnection import DatabaseConnection
 from Managers.LoginManager import LoginManager
-
 from OptionSelection import OptionSelection
 from Pages.LoginPage import LoginPage
 
@@ -11,11 +10,11 @@ from Pages.LoginPage import LoginPage
 # from Pages.KitchenPage import KitchenPage
 # from Pages.MenuPage import MenuPage
 from Pages.OrderPage import OrderPage
+
 # from Pages.ReservationPage import ReservationPage
 # from Pages.StaffPage import StaffPage
 from Pages.Page import Page
 from Pages.TablePage import TablePage
-
 
 CUSTOMER_OPTIONS: List[str] = ["View the Menu"]
 STAFF_OPTIONS: List[str] = [
@@ -60,4 +59,3 @@ while True:
     page_index = OptionSelection.show(options_list)
     os.system("cls" if os.name == "nt" else "clear")
     page_list[page_index].display(login_manager)
-

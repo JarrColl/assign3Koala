@@ -10,24 +10,36 @@
 # when adding a delivery, randomly select a delivery driver
 
 from DatabaseConnection import DatabaseConnection
+from MainClasses.Order import Order
 from OptionSelection import OptionSelection
+from Pages.CartPage import CartPage
 from Pages.Page import Page
 
 db = DatabaseConnection()
 
+ORDER_MENU = ["Create an Order", "Open an Order"]
+
 
 class OrderPage(Page):
     def display(login_manager):
-        print("hellow workd")
-        order_dict = db.getTableData("orders")
-        order_list = [
-            "Order ID: "
-            + str(order["id"])
-            + ", Table ID: "
-            + str(order["table_id"])
-            + ", Status: "
-            + order["status"]
-            for order in order_dict
-        ]
+        selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
 
-        order_index = OptionSelection.show(order_list, "Select an Order", "Return to home.")
+        match selection_index:
+            case 0:
+                cart = CartPage.display()
+                new_order = Order()
+            case 1:
+                order_dict = db.getTableData("orders")
+                order_list = [
+                    "Order ID: "
+                    + str(order["id"])
+                    + ", Table ID: "
+                    + str(order["table_id"])
+                    + ", Status: "
+                    + order["status"]
+                    for order in order_dict
+                ]
+
+                order_index = OptionSelection.show(
+                    order_list, "Select an Order", "Return to home."
+                )

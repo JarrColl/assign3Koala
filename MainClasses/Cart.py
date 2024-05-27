@@ -1,6 +1,6 @@
 from typing import List
 
-from MenuItem import MenuItem
+from MainClasses.MenuItem import MenuItem
 
 
 class Cart:
@@ -10,10 +10,8 @@ class Cart:
     def addItem(self, menuItem: MenuItem):
         self.menuItems.append(menuItem)
 
-    def removeItem(self, menuItem: MenuItem):
-        for item in self.menuItems:
-            if item.id == menuItem.id:
-                self.menuItems.remove(item)
+    def removeItem(self, index: int):
+        del self.menuItems[index]
 
     def getAllItems(self) -> List[MenuItem]:
         return self.menuItems

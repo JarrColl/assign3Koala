@@ -15,7 +15,7 @@ class TableManager:
     def removeTable(self, id: int):
         for i in range(0, len(self.tables)):
             if self.tables[i].id == id:
-                self.tables.remove(i)
+                del self.tables[i]
 
     def editTable(self, table: Table):
         for i in range(0, len(self.tables)):

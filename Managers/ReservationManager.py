@@ -15,7 +15,7 @@ class ReservationManager:
     def removeReservation(self, id: int):
         for i in range(0, len(self.reservations)):
             if self.reservations[i].id == id:
-                self.reservations.remove(i)
+                del self.reservations[i]
 
     def editReservation(self, reservation: Reservation):
         for i in range(0, len(self.reservations)):
