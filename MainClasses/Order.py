@@ -2,7 +2,6 @@ from typing import List
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Cart import Cart
-from MainClasses.Delivery import Delivery
 from MainClasses.Invoice import Invoice
 from MainClasses.MenuItem import MenuItem
 from MainClasses.Table import Table
@@ -14,18 +13,16 @@ class Order:
         cart: Cart,
         status: str,
         table: Table,
-        delivery: Delivery = None,
     ):
         # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because 
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
         order_dict = db.getTableData("orders")
         # TODO: FINISH THIS
-        self.id: int = 
+        # self.id: int = 
         
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
-        self.delivery: Delivery = delivery
         self.table: Table = table
         self.status: str = status # Cooking, Cooked, Paid
 
@@ -40,9 +37,6 @@ class Order:
 
     def setInvoice(self, invoice: Invoice):
         self.invoice = invoice
-
-    def getDelivery(self) -> Delivery:
-        return self.delivery
 
     def getStatus(self) -> str:
         return self.status

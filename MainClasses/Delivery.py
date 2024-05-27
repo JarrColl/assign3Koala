@@ -1,5 +1,4 @@
-from typing import List
-from Order import Order
+from MainClasses.Order import Order
 from MainClasses.DeliveryDriver import DeliveryDriver
 
 #TODO: change isDelivered to isDelivered
