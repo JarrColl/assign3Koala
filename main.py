@@ -7,7 +7,7 @@ from OptionSelection import OptionSelection
 from Pages.LoginPage import LoginPage
 
 # from Pages.DeliveryPage import DeliveryPage
-# from Pages.KitchenPage import KitchenPage
+from Pages.KitchenPage import KitchenPage
 from Pages.MenuPage import MenuPage
 from Pages.OrderPage import OrderPage
 
@@ -26,8 +26,8 @@ STAFF_OPTIONS: List[str] = [
     "Staff Management",
     "Table Management",
 ]
-CUSTOMER_PAGES: List[Page] = [None]
-STAFF_PAGES: List[Page] = [None, None, MenuPage, OrderPage, None, None, TablePage]
+CUSTOMER_PAGES: List[Page] = [MenuPage]
+STAFF_PAGES: List[Page] = [None, KitchenPage, MenuPage, OrderPage, None, None, TablePage]
 
 db = DatabaseConnection()
 login_manager = LoginManager(db)
