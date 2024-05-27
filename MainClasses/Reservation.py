@@ -1,11 +1,12 @@
-from Table import Table
 from datetime import datetime
+from MainClasses.Table import Table
 
 
 class Reservation:
-    def __init__(self, id: int, table: Table, time_slot: datetime):
+    def __init__(self, id: int, table: Table):
         self.id: int = id
-        self.table: str = table
+        self.table: Table = table
+        #self.time_slot = time_slot
 
     def getId(self) -> int:
         return self.id
