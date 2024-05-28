@@ -8,6 +8,8 @@ from MainClasses.Table import Table
 from MainClasses.Delivery import Delivery
 
 db = DatabaseConnection()
+
+
 class Order:
     def __init__(
         self,
@@ -22,12 +24,13 @@ class Order:
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
         #order_dict = db.getTableData("orders")
         # TODO: FINISH THIS
-        self.id: int = id
-        self.menu_items: List[MenuItem] = menu_items
+        # self.id: int =
+
+        self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
         self.delivery: Delivery = delivery
         self.table: int = tableId
-        self.status: str = status # Cooking, Cooked, Paid
+        self.status: str = status  # Cooking, Cooked, Paid
 
     def getAllItems(self) -> List[MenuItem]:
         return self.menu_items
@@ -55,4 +58,3 @@ class Order:
         for item in self.menu_items:
             total += item.getPrice()
         return total
-
