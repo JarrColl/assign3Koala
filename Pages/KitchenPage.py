@@ -6,6 +6,7 @@ from OptionSelection import OptionSelection
 from Pages.Page import Page
 from MainClasses.Order import Order
 from MainClasses.MenuItem import MenuItem
+from MainClasses.Cart import Cart
 from typing import List
 import time
 
@@ -29,7 +30,10 @@ class KitchenPage(Page):
             menu_item_ids = order['menu_items']
             filtered_menu_items = [item for item in menu_dict if item['id'] in menu_item_ids]
             menu_items = [MenuItem(item['id'], item['name'], item['price']) for item in filtered_menu_items]
-            order_list.append(Order(order['id'], menu_items, order['status'], order['table_id']))
+            cart = Cart()
+            for item in menu_items:
+                cart.addItem(item)
+            order_list.append(Order(order['id'], cart, order['status'], order['table_id']))
 
 
         KitchenPage.printOrder(order_list)

@@ -14,18 +14,16 @@ class Order:
     def __init__(
         self,
         id: int,
-        menu_items: List[MenuItem],
+        cart: Cart,
         status: str,
         tableId: int,
         delivery: Delivery = None,
-        cart: Cart = None
     ):
         # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
         #order_dict = db.getTableData("orders")
         # TODO: FINISH THIS
-        # self.id: int =
-
+        self.id: int = id
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
         self.delivery: Delivery = delivery
