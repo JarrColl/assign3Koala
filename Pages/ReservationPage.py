@@ -13,7 +13,6 @@ from typing import List
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)
 reservation_list = reservation_manager.getReservations()
-table_dict = db.getTableData("tables")
 
 
 class ReservationPage(Page):
@@ -23,6 +22,7 @@ class ReservationPage(Page):
         os.system('cls' if os.name == 'nt' else 'clear')
 
     def display(login_manager):
+        table_dict = db.getTableData("tables")
         while True:
             ReservationPage.clear_screen()
             ReservationPage.printReservation()
@@ -35,9 +35,8 @@ class ReservationPage(Page):
                 ReservationPage.clear_screen()
                 ReservationPage.addReservation()
             elif user_input == "e":
-                break
-                #ReservationPage.clear_screen()
-                #ReservationPage.editReservation()
+                ReservationPage.clear_screen()
+                ReservationPage.editReservation()
             elif user_input == "r":
                 ReservationPage.clear_screen()
                 ReservationPage.removeReservation()
@@ -46,10 +45,13 @@ class ReservationPage(Page):
     def printReservation():
         for reservation in reservation_list:
             print('----------Reservation ID: ' + str(reservation.getId()) + "----------")
-            print('Table ID: ' + str(reservation.getTable().getId()) + " Status: " + reservation.getTable().getStatus())
+
+            print('Table ID: ' + str(reservation.getTable().getId()) + "   |   Status: " + reservation.getTable().getStatus())
+        print('_____________________________________')
 
 
     def addReservation():
+        table_dict = db.getTableData("tables")
         available_tables = [table for table in table_dict if table['status'] == 'free']
         if not available_tables:
             print("No available tables.")
@@ -90,23 +92,23 @@ class ReservationPage(Page):
         return
 
 
-    """def editReservation():
-        reservation_dict = reservation_manager.getReservations()
-        if not reservation_dict:
+    def editReservation():
+        table_dict = db.getTableData("tables")
+        if not reservation_list:
             print("No reservations found.")
             input("Press Enter to continue...")
             return
 
-        ReservationPage.printReservation(reservation_dict)
+        ReservationPage.printReservation()
         reservation_id = int(input("Enter the Reservation ID to edit: ").strip())
-        reservation = next((res for res in reservation_dict if res['id'] == reservation_id), None)
+        reservation = next((res for res in reservation_list if res.getId() == reservation_id), None)
+        old_table_id = reservation.getTable().getId()
         if not reservation:
             print("Invalid Reservation ID.")
             input("Press Enter to continue...")
             return
 
-        table_dict = db.getTableData("tables")
-        available_tables = [table for table in table_dict if table['status'] == 'available' and table['id'] != reservation['tableId']]
+        available_tables = [table for table in table_dict if table['status'] == 'free']
         if not available_tables:
             print("No available tables.")
             input("Press Enter to continue...")
@@ -123,13 +125,20 @@ class ReservationPage(Page):
             return
 
         if reservation_manager.editReservation(reservation_id, new_table_id):
+            for table in table_dict:
+                if table['id'] == old_table_id:
+                    table['status'] = "free"
+                if table['id'] == new_table_id:
+                    table['status'] = 'occupied'
+            db.writeTableData("tables", table_dict)
             print(f"Reservation {reservation_id} updated successfully.")
         else:
             print("Failed to update reservation.")
-        input("Press Enter to continue...")"""
+        input("Press Enter to continue...")
 
 
     def removeReservation():
+        table_dict = db.getTableData("tables")
         if not reservation_list:
             print("No reservations found.")
             input("Press Enter to continue...")
