@@ -15,7 +15,7 @@ from Managers.TableManager import TableManager
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
-from Pages.PaymentPage import PaymentPage
+# from Pages.PaymentPage import PaymentPage
 
 db = DatabaseConnection()
 table_manager = TableManager(db)
