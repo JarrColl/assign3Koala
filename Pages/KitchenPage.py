@@ -40,7 +40,7 @@ class KitchenPage(Page):
                     menu_manager.getAllItems(),
                 )
             )
-            print(menu_items)
+            #print(menu_items)
             cart = Cart()
             for item in menu_items:
                 cart.addItem(item)
