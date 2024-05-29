@@ -13,11 +13,8 @@ db = DatabaseConnection()
 class Order:
     def __init__(
         self,
-        id: int,
         cart: Cart,
-        status: str,
-        tableId: int,
-        delivery: Delivery = None,
+        tableId: int
     ):
         # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
@@ -30,7 +27,6 @@ class Order:
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
-        self.delivery: Delivery = delivery
         self.table: int = tableId
         self.status = status
         #self.status = "Cooking"  # Cooking, Cooked, Paid
