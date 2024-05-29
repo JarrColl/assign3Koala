@@ -26,10 +26,18 @@ class ReservationManager:
 
 
     def removeReservation(self, id: int):
-        for i in range(0, len(self.reservations)):
-            if self.reservations[i].id == id:
-                del self.reservations[i]
-        self.db.writeTableData("reservation", self.reservations)
+        for r in self.reservations:
+            if r.getId() == id:
+                self.reservations.remove(r)
+        reservations = []
+        count = 1
+        for rev in self.reservations:
+            rev.setId(count)
+            count += 1
+            rev = self.to_dict(rev)
+            reservations.append(rev)
+        self.db.writeTableData("reservation", reservations)
+        return True
 
     def editReservation(self, reservation: Reservation):
         for i in range(0, len(self.reservations)):
