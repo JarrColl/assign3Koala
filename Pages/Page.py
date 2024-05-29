@@ -6,5 +6,5 @@ class Page(ABC):
     """
 
     @abstractmethod
-    def display(self, login_manager):
+    def display(self, login_manager) -> bool:
         pass

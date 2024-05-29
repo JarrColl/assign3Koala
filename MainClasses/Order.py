@@ -55,3 +55,6 @@ class Order:
         for item in self.menu_items:
             total += item.getPrice()
         return total
+    
+    def asDict(self):
+        return {"id": self.id, "menu_items": self.menu_items, "invoice_id": self.invoice, "table_id": self.table, "status": self.status}

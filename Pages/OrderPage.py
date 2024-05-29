@@ -15,11 +15,13 @@ from Managers.TableManager import TableManager
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
+from Pages.PaymentPage import PaymentPage
 
 db = DatabaseConnection()
 table_manager = TableManager(db)
 
 ORDER_MENU = ["Create an Order", "Open an Order"]
+VIEW_ORDER_OPTIONS = ["Pay for Order"]
 
 
 class OrderPage(Page):
@@ -31,12 +33,13 @@ class OrderPage(Page):
                 case 0:  # Create an Order
                     OrderPage.createOrder()
                 case 1:
-                    OrderPage.editOrder()
+                    OrderPage.viewOrder()
                 case -1:
                     break
 
     @staticmethod
     def createOrder():
+        order_dict = db.getTableData("orders")
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
         table_id = OptionSelection.show(
@@ -47,9 +50,11 @@ class OrderPage(Page):
 
         cart = CartPage.display()
         new_order = Order(cart, table_id)
+        order_dict.append(new_order.asDict())
+        db.writeTableData("orders", order_dict)
 
     @staticmethod
-    def editOrder():
+    def viewOrder():
         order_dict = db.getTableData("orders")
         order_list = [
             "Order ID: "
@@ -61,6 +66,12 @@ class OrderPage(Page):
             for order in order_dict
         ]
 
-        order_index = OptionSelection.show(
-            order_list, "Select an Order", "Return to home."
-        )
+        order_index = OptionSelection.show(order_list, "Select an Order", "Return.")
+        order: Order = order_dict[order_index]
+
+        view_order_option = OptionSelection(VIEW_ORDER_OPTIONS, f"Order: { order.getId() }", "Cancel")
+        if view_order_option == 0: # Pay for order
+            if PaymentPage.display():
+                order.setStatus("Paid")
+        else: 
+            return
