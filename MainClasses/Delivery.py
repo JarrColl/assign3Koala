@@ -1,7 +1,6 @@
 from MainClasses.DeliveryDriver import DeliveryDriver
 
-# TODO: change isDelivered to isDelivered
-
+#TODO: change isDelivered to isDelivered
 
 class Delivery:
 

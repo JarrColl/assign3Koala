@@ -11,7 +11,10 @@ class ReservationManager:
         self.reservations: List[Reservation] = []
 
     def to_dict(self, reservation: Reservation):
-        return {"id": reservation.getId(), "tableId": reservation.getTable().getId()}
+        return {
+            'id': reservation.getId(),
+            'tableId': reservation.getTable().getId()
+        }
 
     def addReservation(self, reservation: Reservation):
         self.reservations.append(reservation)
@@ -20,6 +23,7 @@ class ReservationManager:
             rev = self.to_dict(rev)
             reservations.append(rev)
         self.db.writeTableData("reservation", reservations)
+
 
     def removeReservation(self, id: int):
         for i in range(0, len(self.reservations)):
@@ -38,9 +42,9 @@ class ReservationManager:
         table_dict = self.db.getTableData("tables")
         for reservation in reservations:
             for table in table_dict:
-                if table["id"] == reservation["tableId"]:
-                    new_table = Table(table["id"], table["status"])
-                    self.reservations.append(Reservation(reservation["id"], new_table))
+                    if table['id'] == reservation['tableId']:
+                        new_table = Table(table['id'], table['status'])
+                        self.reservations.append(Reservation(reservation['id'], new_table))
         return self.reservations
 
     def getReservation(self, id: int) -> Reservation:
