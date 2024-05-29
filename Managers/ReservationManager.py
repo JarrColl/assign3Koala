@@ -1,7 +1,8 @@
+from typing import List
+
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Reservation import Reservation
 from MainClasses.Table import Table
-from typing import List
 
 
 class ReservationManager:

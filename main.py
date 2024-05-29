@@ -4,17 +4,14 @@ from typing import List
 from DatabaseConnection import DatabaseConnection
 from Managers.LoginManager import LoginManager
 from OptionSelection import OptionSelection
-from Pages.LoginPage import LoginPage
-
 from Pages.DeliveryPage import DeliveryPage
 from Pages.KitchenPage import KitchenPage
+from Pages.LoginPage import LoginPage
 from Pages.MenuPage import MenuPage
 from Pages.OrderPage import OrderPage
-
-from Pages.ReservationPage import ReservationPage
-
 # from Pages.StaffPage import StaffPage
 from Pages.Page import Page
+from Pages.ReservationPage import ReservationPage
 from Pages.TablePage import TablePage
 
 CUSTOMER_OPTIONS: List[str] = ["View the Menu"]

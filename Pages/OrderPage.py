@@ -11,10 +11,10 @@
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Order import Order
+from Managers.TableManager import TableManager
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
-from Managers.TableManager import TableManager
 
 db = DatabaseConnection()
 table_manager = TableManager(db)
