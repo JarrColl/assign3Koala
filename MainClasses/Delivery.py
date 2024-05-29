@@ -1,8 +1,6 @@
 from MainClasses.DeliveryDriver import DeliveryDriver
 from MainClasses.Order import Order
 
-#TODO: change isDelivered to isDelivered
-
 class Delivery:
 
     def __init__(self, id: int, order: Order, isDelivered: bool):

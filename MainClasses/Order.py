@@ -2,7 +2,6 @@ from typing import List, Literal
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Cart import Cart
-from MainClasses.Delivery import Delivery
 from MainClasses.Invoice import Invoice
 from MainClasses.MenuItem import MenuItem
 from MainClasses.Table import Table
@@ -14,22 +13,21 @@ class Order:
     def __init__(
         self,
         cart: Cart,
-        tableId: int
+        tableId: int,
+        id: int = None,
+        status: Literal["Cooking", "Cooked", "Paid"] = "Cooking",
     ):
-        # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because
-        # what is the point we are only here to show OOP design being implemented, not our sql database abilities
-        order_dict = db.getTableData("orders")
-        next_id = max(order_dict, key=lambda x: x["id"])["id"] + 1
-        if id < next_id:
+        if id:
             self.id = id
         else:
+            order_dict = db.getTableData("orders")
+            next_id = max(order_dict, key=lambda x: x["id"])["id"] + 1
             self.id: int = next_id
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
         self.table: int = tableId
-        self.status = status
-        #self.status = "Cooking"  # Cooking, Cooked, Paid
+        self.status: Literal["Cooking", "Cooked", "Paid"] = status
 
     def getAllItems(self) -> List[MenuItem]:
         return self.menu_items

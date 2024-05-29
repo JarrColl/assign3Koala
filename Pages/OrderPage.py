@@ -39,23 +39,25 @@ class OrderPage(Page):
     def createOrder():
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
-        # TODO: check if return in -1 to cancel
-        OptionSelection.show(
+        table_id = OptionSelection.show(
             [table["id"] for table in tables], "What table is the order for?", "Cancel"
         )
+        if table_id == -1:
+            return
+
         cart = CartPage.display()
-        new_order = Order(cart)
+        new_order = Order(cart, table_id)
 
     @staticmethod
     def editOrder():
         order_dict = db.getTableData("orders")
         order_list = [
             "Order ID: "
-                + str(order["id"])
-                + ", Table ID: "
-                + str(order["table_id"])
-                + ", Status: "
-                + order["status"]
+            + str(order["id"])
+            + ", Table ID: "
+            + str(order["table_id"])
+            + ", Status: "
+            + order["status"]
             for order in order_dict
         ]
 
