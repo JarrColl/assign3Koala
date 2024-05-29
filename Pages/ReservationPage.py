@@ -17,14 +17,13 @@ reservation_dict = reservation_manager.getReservations()
 
 class ReservationPage(Page):
 
-
     def clear_screen():
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     def display(login_manager):
         while True:
             ReservationPage.clear_screen()
-            #table_dict = db.getTableData("tables")
+            # table_dict = db.getTableData("tables")
             reservation_list: List[Reservation] = []
             reservation_list = reservation_dict
             """
@@ -46,21 +45,26 @@ class ReservationPage(Page):
                 ReservationPage.clear_screen()
             elif user_input == "e":
                 break
-                #ReservationPage.editReservation()
+                # ReservationPage.editReservation()
             elif user_input == "r":
                 break
-                #ReservationPage.removeReservation()
-
+                # ReservationPage.removeReservation()
 
     def printReservation(reservation_list: List[Reservation]):
         for reservation in reservation_list:
-            print('----------Reservation ID: ' + str(reservation.getId()) + "----------")
-            print('Table ID: ' + str(reservation.getTable().getId()) + " Status: " + reservation.getTable().getStatus())
-
+            print(
+                "----------Reservation ID: " + str(reservation.getId()) + "----------"
+            )
+            print(
+                "Table ID: "
+                + str(reservation.getTable().getId())
+                + " Status: "
+                + reservation.getTable().getStatus()
+            )
 
     def addReservation():
         table_dict = db.getTableData("tables")
-        available_tables = [table for table in table_dict if table['status'] == 'free']
+        available_tables = [table for table in table_dict if table["status"] == "free"]
         if not available_tables:
             print("No available tables.")
             input("Press Enter to continue...")
@@ -71,7 +75,7 @@ class ReservationPage(Page):
             print(f"Table ID: {table['id']} Status: {table['status']}")
 
         table_id = int(input("Enter the Table ID to reserve: ").strip())
-        if table_id not in [table['id'] for table in available_tables]:
+        if table_id not in [table["id"] for table in available_tables]:
             print("Invalid Table ID.")
             input("Press Enter to continue...")
             ReservationPage.clear_screen()
@@ -79,8 +83,8 @@ class ReservationPage(Page):
 
         reserved_table = Table(table_id, "occupied")
         for table in table_dict:
-            if table['id'] == table_id:
-                table['status'] = 'occupied'
+            if table["id"] == table_id:
+                table["status"] = "occupied"
         db.writeTableData("tables", table_dict)
         new_reservation_id = len(reservation_dict) + 1
         if new_reservation_id:
@@ -92,7 +96,6 @@ class ReservationPage(Page):
             ReservationPage.clear_screen()
         input("Press Enter to continue...")
         return
-
 
     """
     def editReservation():
@@ -155,6 +158,3 @@ class ReservationPage(Page):
             print("Failed to remove reservation.")
         input("Press Enter to continue...")
     """
-
-
-

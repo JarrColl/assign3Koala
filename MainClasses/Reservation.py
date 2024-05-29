@@ -6,7 +6,7 @@ class Reservation:
     def __init__(self, id: int, table: Table):
         self.id: int = id
         self.table: Table = table
-        #self.time_slot = time_slot
+        # self.time_slot = time_slot
 
     def getId(self) -> int:
         return self.id

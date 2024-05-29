@@ -23,10 +23,7 @@ class LoginManager:
         if staff_dict:
             role_list = self.db.getTableData("roles")
             role_dict = next(
-                (
-                    role for role in role_list
-                    if (role["id"] == staff_dict["id"])
-                ),
+                (role for role in role_list if (role["id"] == staff_dict["id"])),
                 None,
             )
             role = Role(role_dict["id"], role_dict["name"], role_dict["description"])

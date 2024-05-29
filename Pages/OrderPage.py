@@ -21,20 +21,25 @@ table_manager = TableManager(db)
 
 ORDER_MENU = ["Create an Order", "Open an Order"]
 
+
 class OrderPage(Page):
     def display(login_manager):
         while True:
             selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
 
             match selection_index:
-                case 0: # Create an Order
+                case 0:  # Create an Order
                     table_manager.readItemsFromDB()
                     tables = table_manager.getTables()
-                    #TODO: check if return in -1 to cancel
-                    OptionSelection.show([table["id"] for table in tables], "What table is the order for?", "Cancel")
+                    # TODO: check if return in -1 to cancel
+                    OptionSelection.show(
+                        [table["id"] for table in tables],
+                        "What table is the order for?",
+                        "Cancel",
+                    )
                     cart = CartPage.display()
                     new_order = Order(cart)
-                    
+
                 case 1:
                     order_dict = db.getTableData("orders")
                     order_list = [
@@ -46,10 +51,9 @@ class OrderPage(Page):
                         + order["status"]
                         for order in order_dict
                     ]
-                    
+
                     order_index = OptionSelection.show(
                         order_list, "Select an Order", "Return to home."
                     )
-                case -1: 
+                case -1:
                     break
-

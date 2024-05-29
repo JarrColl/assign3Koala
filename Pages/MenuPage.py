@@ -1,4 +1,4 @@
-#Print menu items
+# Print menu items
 from DatabaseConnection import DatabaseConnection
 from OptionSelection import OptionSelection
 from Pages.Page import Page
@@ -10,10 +10,11 @@ db = DatabaseConnection()
 class MenuPage(Page):
     def display(login_manager):
         menu_dict = db.getTableData("menu")
-        menu_items = [MenuItem(item['id'], item['name'], item['price']) for item in menu_dict]
+        menu_items = [
+            MenuItem(item["id"], item["name"], item["price"]) for item in menu_dict
+        ]
 
         MenuPage.printMenu(menu_items)
-
 
     def printMenu(menu_items):
         print("------------Menu------------")
@@ -43,6 +44,3 @@ class MenuPage(Page):
             user_input = input("Enter q to exit: ")
             if user_input == "q":
                 return "q"
-
-
-

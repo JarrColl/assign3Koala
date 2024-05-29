@@ -5,6 +5,7 @@ import os
 
 from Pages.Page import Page
 
+
 class LoginPage(Page):
     def display(login_manager):
         os.system("cls" if os.name == "nt" else "clear")
@@ -18,5 +19,3 @@ class LoginPage(Page):
                 break
             else:
                 print("Username and Password do not match please try again.")
-        
-        
