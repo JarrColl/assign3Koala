@@ -14,32 +14,42 @@ from MainClasses.Order import Order
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
+from Managers.TableManager import TableManager
 
 db = DatabaseConnection()
+table_manager = TableManager(db)
 
 ORDER_MENU = ["Create an Order", "Open an Order"]
 
-
 class OrderPage(Page):
     def display(login_manager):
-        selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
+        while True:
+            selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
 
-        match selection_index:
-            case 0:
-                cart = CartPage.display()
-                new_order = Order()
-            case 1:
-                order_dict = db.getTableData("orders")
-                order_list = [
-                    "Order ID: "
-                    + str(order["id"])
-                    + ", Table ID: "
-                    + str(order["table_id"])
-                    + ", Status: "
-                    + order["status"]
-                    for order in order_dict
-                ]
+            match selection_index:
+                case 0: # Create an Order
+                    table_manager.readItemsFromDB()
+                    tables = table_manager.getTables()
+                    #TODO: check if return in -1 to cancel
+                    OptionSelection.show([table["id"] for table in tables], "What table is the order for?", "Cancel")
+                    cart = CartPage.display()
+                    new_order = Order(cart)
+                    
+                case 1:
+                    order_dict = db.getTableData("orders")
+                    order_list = [
+                        "Order ID: "
+                        + str(order["id"])
+                        + ", Table ID: "
+                        + str(order["table_id"])
+                        + ", Status: "
+                        + order["status"]
+                        for order in order_dict
+                    ]
+                    
+                    order_index = OptionSelection.show(
+                        order_list, "Select an Order", "Return to home."
+                    )
+                case -1: 
+                    break
 
-                order_index = OptionSelection.show(
-                    order_list, "Select an Order", "Return to home."
-                )
