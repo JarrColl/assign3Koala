@@ -1,6 +1,6 @@
 from DatabaseConnection import DatabaseConnection
-from MainClasses.Role import Role
 from MainClasses.Staff import Staff
+from MainClasses.Role import Role
 
 
 class LoginManager:

@@ -3,13 +3,12 @@
 # Delete Reservation
 # Edit Reservation
 import os
-from typing import List
-
 from DatabaseConnection import DatabaseConnection
+from Pages.Page import Page
 from MainClasses.Reservation import Reservation
 from MainClasses.Table import Table
 from Managers.ReservationManager import ReservationManager
-from Pages.Page import Page
+from typing import List
 
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)

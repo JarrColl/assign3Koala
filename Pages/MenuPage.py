@@ -1,8 +1,8 @@
 # Print menu items
 from DatabaseConnection import DatabaseConnection
-from MainClasses.MenuItem import MenuItem
 from OptionSelection import OptionSelection
 from Pages.Page import Page
+from MainClasses.MenuItem import MenuItem
 
 db = DatabaseConnection()
 

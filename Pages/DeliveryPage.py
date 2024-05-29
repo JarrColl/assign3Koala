@@ -1,8 +1,9 @@
 # list deliveries
 # Mark as delivered
 from DatabaseConnection import DatabaseConnection
-from MainClasses.MenuItem import \
-    MenuItem  # Assuming MenuItem will be used as DeliveryItem
+from MainClasses.MenuItem import (
+    MenuItem,
+)  # Assuming MenuItem will be used as DeliveryItem
 from OptionSelection import OptionSelection
 from Pages.Page import Page
 
