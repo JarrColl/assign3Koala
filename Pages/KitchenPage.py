@@ -55,6 +55,7 @@ class KitchenPage(Page):
                     print('-------Order ID: ' + str(order.getId()) + "-------")
                     print('Status: '+ order.getStatus())
                     KitchenPage.printItems(order.getAllItems())
+                print("__________________________________________________")
                 user_input = input("Enter 'q' to exit, 'u' to update order status: ")
                 if user_input == "q":
                     return "q"

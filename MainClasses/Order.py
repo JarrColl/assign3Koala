@@ -22,13 +22,18 @@ class Order:
         # This sucks, and wouldn't be a problem with a sql db but we didn't bother using one because
         # what is the point we are only here to show OOP design being implemented, not our sql database abilities
         order_dict = db.getTableData("orders")
-        self.id: int = max(order_dict, key=lambda x: x["id"])["id"] + 1
+        next_id = max(order_dict, key=lambda x: x["id"])["id"] + 1
+        if id < next_id:
+            self.id = id
+        else:
+            self.id: int = next_id
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Invoice = None
         self.delivery: Delivery = delivery
         self.table: int = tableId
-        self.status = "Cooking"  # Cooking, Cooked, Paid
+        self.status = status
+        #self.status = "Cooking"  # Cooking, Cooked, Paid
 
     def getAllItems(self) -> List[MenuItem]:
         return self.menu_items
