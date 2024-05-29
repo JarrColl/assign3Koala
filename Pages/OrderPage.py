@@ -71,7 +71,9 @@ class OrderPage(Page):
 
         view_order_option = OptionSelection(VIEW_ORDER_OPTIONS, f"Order: { order.getId() }", "Cancel")
         if view_order_option == 0: # Pay for order
-            if PaymentPage.display():
-                order.setStatus("Paid")
+            pass
+            #TODO: uncomment when ryan finishes the payment page
+            # if PaymentPage.display():
+                # order.setStatus("Paid")
         else: 
             return
