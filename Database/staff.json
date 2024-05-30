@@ -1,1 +1,30 @@
-[{"id": 0, "username": "jarron_c", "password": "123abc", "name": "Jarron Collins", "role": 0}, {"id": 1, "username": "bobby123", "password": "pa$$word", "name": "Bobathy Jones", "role": 1}]
+[
+  {
+    "id": 0,
+    "username": "jarron_c",
+    "password": "123abc",
+    "name": "Jarron Collins",
+    "role": 0
+  },
+  {
+    "id": 1,
+    "username": "",
+    "password": "",
+    "name": "Bobathy Jones",
+    "role": 1
+  },
+  {
+    "id": 2,
+    "username": "manager",
+    "password": "password",
+    "name": "Man Ager",
+    "role": 0
+  },
+  {
+    "id": 3,
+    "username": "staff",
+    "password": "password",
+    "name": "Staff Friedmen",
+    "role": 0
+  }
+]

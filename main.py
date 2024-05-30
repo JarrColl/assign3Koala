@@ -65,6 +65,8 @@ elif user_type == "customer":
 
 while True:
     os.system("cls" if os.name == "nt" else "clear")
-    page_index = OptionSelection.show(options_list, "Main Menu")
+    page_index = OptionSelection.show(options_list, "Main Menu", "Exit")
     os.system("cls" if os.name == "nt" else "clear")
+    if page_index == -1:
+        break
     page_list[page_index].display(login_manager)

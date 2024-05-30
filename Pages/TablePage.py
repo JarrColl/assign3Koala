@@ -15,6 +15,9 @@ class TablePage(Page):
     def display(login_manager: LoginManager) -> bool:
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
-        table_numbers = [str(table.getId()) for table in tables]
+        table_numbers = [
+            "| " + str(table.getId()) + " | " + table.getStatus() + " |"
+            for table in tables
+        ]
         OptionSelection.show(table_numbers, "Pick a table number:")
         return True

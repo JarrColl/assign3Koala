@@ -13,7 +13,8 @@ from Pages.Page import Page
 
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)
-reservation_list = reservation_manager.getReservations()
+reservation_manager.readItemsFromDB()
+reservation_list = reservation_manager.getAllReservations()
 
 
 class ReservationPage(Page):
@@ -114,7 +115,8 @@ class ReservationPage(Page):
             return
 
         reserved_table = Table(table_id, "occupied")
-        new_reservation_id = reservation_list[len(reservation_list) - 1].getId() + 1
+
+        new_reservation_id = max(reservation_list, key=lambda x: x.getId()).getId() + 1
         if new_reservation_id:
             rev = Reservation(new_reservation_id, reserved_table, time_slot)
             reservation_manager.addReservation(rev)

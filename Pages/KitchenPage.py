@@ -24,11 +24,7 @@ class KitchenPage(Page):
     def display(login_manager) -> bool:
         order_dict = db.getTableData("orders")
         menu_manager.readItemsFromDB()
-        paid_orders = [
-            order
-            for order in order_dict
-            if (order["status"] == "Paid" or order["status"] == "Cooking")
-        ]
+        paid_orders = [order for order in order_dict if (order["status"] != "Cooked")]
         order_list: List[Order] = []
 
         for order in paid_orders:
@@ -52,7 +48,7 @@ class KitchenPage(Page):
     @staticmethod
     def printOrders(order_list):
         while True:
-            founded = False
+            found = False
             if (len(order_list)) == 0:
                 print("No order available")
                 user_input = input("Enter 'q' to exit: ")
@@ -67,34 +63,31 @@ class KitchenPage(Page):
                     print("Status: " + order.getStatus())
                     KitchenPage.printItems(order.getAllItems())
                 print("__________________________________________________")
-                user_input = input("Enter 'q' to exit, 'u' to update order status: ")
+                user_input = input(
+                    "Enter 'q' to exit, 'u' to mark an order as 'Cooked': "
+                )
                 if user_input == "q":
                     return "q"
                 elif user_input == "u":
                     order_id_to_update = input("Enter the order ID to update status: ")
                     for order in order_list:
                         if str(order.getId()) == order_id_to_update:
-                            new_status = input("Enter the new status: ")
-                            order.setStatus(new_status)
-                            KitchenPage.update_order_status(
-                                order_id_to_update, new_status
-                            )
-                            print(f"Order status updated to {new_status}")
-                            if new_status == "Cooked":
-                                order_list.remove(order)
-                            time.sleep(1)
+                            order.setStatus("Cooked")
+                            KitchenPage.update_order_status(order)
+                            print("Order status updated to Cooked")
+                            order_list.remove(order)
                             KitchenPage.clear_screen()
-                            founded = True
+                            found = True
                             break
-                    if not founded:
+                    if not found:
                         KitchenPage.clear_screen()
                         print(
-                            "!!!!Invalid order ID, please enter 'u' to update order status again!!!!"
+                            "Invalid order ID, please enter 'u' to update order status again."
                         )
                 else:
                     KitchenPage.clear_screen()
                     print(
-                        "!!!!Invalid input, please enter 'q' to exit or 'u' to update order status.!!!!"
+                        "Invalid input, please enter 'q' to exit or 'u' to update order status."
                     )
 
     @staticmethod
@@ -106,13 +99,13 @@ class KitchenPage(Page):
             print(f"Item ID: {id_str} - Name: {name_str} - Price: {price_str}")
 
     @staticmethod
-    def update_order_status(order_id: str, new_status: str):
+    def update_order_status(new_order: Order):
         order_dict = db.getTableData("orders")
 
         # Find the order with the specified ID and update its status
-        for order in order_dict:
-            if str(order["id"]) == order_id:
-                order["status"] = new_status
+        for i in range(0, len(order_dict)):
+            if order_dict[i]["id"] == new_order.getId():
+                order_dict[i]["status"] = "Cooked"
                 break
 
         db.writeTableData("orders", order_dict)

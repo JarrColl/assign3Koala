@@ -16,14 +16,14 @@ class ReservationManager:
         reservation_dict = self.db.getTableData("reservations")
         self.table_manager.readItemsFromDB()
         for reservation in reservation_dict:
-            table = self.table_manager.getTable(reservation["id"])
+            table = self.table_manager.getTable(reservation["tableId"])
 
             if table:
                 self.reservations.append(
                     Reservation(reservation["id"], table, reservation["time_slot"])
                 )
             else:
-                print("Found table with an invalid table.")
+                print("Found reservation with an invalid table.")
 
     def _saveItemsToDB(self):
         reservation_dict = [reservation.asDict() for reservation in self.reservations]
@@ -48,7 +48,7 @@ class ReservationManager:
         self._saveItemsToDB()
         return True
 
-    def getReservations(self):
+    def getAllReservations(self):
         self.readItemsFromDB()
         return self.reservations
 

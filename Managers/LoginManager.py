@@ -23,7 +23,7 @@ class LoginManager:
         if staff_dict:
             role_list = self.db.getTableData("roles")
             role_dict = next(
-                (role for role in role_list if (role["id"] == staff_dict["id"])),
+                (role for role in role_list if (role["id"] == staff_dict["role"])),
                 None,
             )
 
@@ -38,4 +38,6 @@ class LoginManager:
         return False
 
     def checkAccess(self, staff: Staff, role: Role):
-        pass
+        if staff.getRole().getId() == role.getId():
+            return True
+        return False

@@ -20,5 +20,5 @@ class OptionSelection:
                 user_input_int = int(user_input)
                 if user_input_int >= 0 and user_input_int < len(options):
                     return user_input_int
-            elif user_input == "q":
+            elif back_msg and user_input == "q":
                 return -1

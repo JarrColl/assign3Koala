@@ -85,4 +85,5 @@ class DeliveryPage(Page):
             db.writeTableData("deliveries", deliveries)
             print(f"Delivery {delivery_id} has been marked as delivered.")
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print("Invalid ID or delivery already delivered.")
