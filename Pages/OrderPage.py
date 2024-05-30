@@ -9,6 +9,7 @@
 # Remember to mark the table associated with the order as occupied
 # when adding a delivery, randomly select a delivery driver
 
+from MainClasses.Delivery import Delivery
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Order import Order
 from Managers.LoginManager import LoginManager
@@ -55,7 +56,10 @@ class OrderPage(Page):
         if table_id == -1:
             return
 
-        cart = CartPage.display()
+        cart = CartPage().display()
+        if not cart:
+            return
+
         new_order = Order(cart, table_id)
         order_dict.append(new_order.asDict())
 
@@ -64,7 +68,11 @@ class OrderPage(Page):
                 "Do you want to create a delivery for this order?(y/n): "
             )
             if do_delivery == "y":
-                pass
+                address = input("Enter the address for the order: ")
+                delivery = Delivery(new_order, address)
+                deliveries = db.getTableData("deliveries")
+                deliveries.append(delivery.asDict())
+                db.writeTableData("deliveries", deliveries)
             elif do_delivery == "n":
                 break
 

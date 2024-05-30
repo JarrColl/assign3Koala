@@ -31,7 +31,7 @@ class DatabaseConnection(metaclass=SingletonMeta):
                 file.write("[]")
         return open(file_path, mode)
 
-    def getTableData(self, name: str):
+    def getTableData(self, name: str) -> List:
         return json.load(self._getFile(name, "r"))
 
     def writeTableData(self, name: str, data: List):

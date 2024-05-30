@@ -58,3 +58,4 @@ class CartPage:
 
                 case -1:
                     break
+        return None
