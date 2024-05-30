@@ -2,18 +2,23 @@
 # List all staff information
 from DatabaseConnection import DatabaseConnection
 from Managers.LoginManager import LoginManager
+from OptionSelection import OptionSelection
+
 
 db = DatabaseConnection()
 
 class StaffPage:
     @staticmethod
     def display(login_manager: LoginManager):
-        if not login_manager.staff or login_manager.staff.role.name != "Manager":
+        if not login_manager.staff or login_manager.staff.getRole().getName() != "Manager":
             print("Access denied. Only managers can access this page.")
-            return
+        else:
+            staff_data = db.getTableData("staff")
+            StaffPage.print_staff_info(staff_data)
+        while True:
+            return OptionSelection.show([], "Delivery Menu: ", "Return")
 
-        staff_data = db.getTableData("staff")
-        StaffPage.print_staff_info(staff_data)
+
 
     @staticmethod
     def print_staff_info(staff_data):
