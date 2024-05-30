@@ -7,5 +7,10 @@ class PaymentMethod(ABC):
     """
 
     @abstractmethod
-    def makePayment() -> bool:
+    def makePayment(self) -> bool:
+        pass
+
+    @property
+    @abstractmethod
+    def name(self) -> str:
         pass

@@ -16,6 +16,7 @@ from Pages.StaffPage import StaffPage
 from Pages.Page import Page
 from Pages.TablePage import TablePage
 
+
 CUSTOMER_OPTIONS: List[str] = ["View the Menu"]
 STAFF_OPTIONS: List[str] = [
     "Deliveries",

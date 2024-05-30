@@ -1,5 +1,11 @@
-from PaymentMethod import PaymentMethod
+from MainClasses.PaymentMethod import PaymentMethod
 
 
 class Card(PaymentMethod):
-    pass
+    def makePayment(self) -> bool:
+        print("Processing card payment")
+        return True
+
+    @property
+    def name(self) -> str:
+        return "Card"
