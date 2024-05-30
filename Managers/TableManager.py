@@ -26,13 +26,13 @@ class TableManager:
 
     def removeTable(self, id: int):
         for i in range(0, len(self.tables)):
-            if self.tables[i].id == id:
+            if self.tables[i].getId() == id:
                 del self.tables[i]
         self._saveItemsToDB()
 
     def editTable(self, table: Table):
         for i in range(0, len(self.tables)):
-            if self.tables[i].id == id:
+            if self.tables[i].getId() == id:
                 self.tables[i] = table
         self._saveItemsToDB()
 
@@ -41,5 +41,5 @@ class TableManager:
 
     def getTable(self, id: int) -> Table:
         for i in range(0, len(self.tables)):
-            if self.tables[i].id == id:
-                return self.tables[id]
+            if self.tables[i].getId() == id:
+                return self.tables[i]

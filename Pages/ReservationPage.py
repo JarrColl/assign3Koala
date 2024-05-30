@@ -124,7 +124,7 @@ class ReservationPage(Page):
             input("Press Enter to continue...")
             return
 
-        if reservation_manager.editReservation(reservation_id, new_table_id):
+        if reservation_manager.editReservation(Reservation(reservation_id, new_table_id)):
             for table in table_dict:
                 if table['id'] == old_table_id:
                     table['status'] = "free"

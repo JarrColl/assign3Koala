@@ -11,3 +11,6 @@ class Table:
     
     def setStatus(self, status: str) -> None:
         self._status = status
+
+    def asDict(self):
+        return {"id": self._id, "status": self._status}
