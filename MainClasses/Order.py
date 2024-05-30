@@ -1,10 +1,9 @@
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Cart import Cart
 from MainClasses.Invoice import Invoice
 from MainClasses.MenuItem import MenuItem
-from MainClasses.Table import Table
 
 db = DatabaseConnection()
 
@@ -14,7 +13,7 @@ class Order:
         self,
         cart: Cart,
         tableId: int,
-        id: int = None,
+        id: Optional[int] = None,
         status: Literal["Cooking", "Cooked", "Paid"] = "Cooking",
     ):
         if id:
@@ -25,7 +24,7 @@ class Order:
             self.id: int = next_id
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
-        self.invoice: Invoice = None
+        self.invoice: Optional[Invoice] = None
         self.table: int = tableId
         self.status: Literal["Cooking", "Cooked", "Paid"] = status
 
@@ -35,7 +34,7 @@ class Order:
     def getId(self) -> int:
         return self.id
 
-    def getInvoice(self) -> Invoice:
+    def getInvoice(self) -> Optional[Invoice]:
         return self.invoice
 
     def setInvoice(self, invoice: Invoice):
@@ -47,7 +46,7 @@ class Order:
     def setStatus(self, status: Literal["Cooking", "Cooked", "Paid"]):
         self.status = status
 
-    def getTable(self) -> Table:
+    def getTable(self) -> int:
         return self.table
 
     def getTotalCost(self):
@@ -55,6 +54,12 @@ class Order:
         for item in self.menu_items:
             total += item.getPrice()
         return total
-    
+
     def asDict(self):
-        return {"id": self.id, "menu_items": self.menu_items, "invoice_id": self.invoice, "table_id": self.table, "status": self.status}
+        return {
+            "id": self.id,
+            "menu_items": self.menu_items,
+            "invoice_id": self.invoice,
+            "table_id": self.table,
+            "status": self.status,
+        }

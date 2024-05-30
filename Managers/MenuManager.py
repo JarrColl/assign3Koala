@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.MenuItem import MenuItem
@@ -17,10 +17,7 @@ class MenuManager:
         ]
 
     def _saveItemsToDB(self):
-        items_dict = [
-            {"id": item.getID(), "name": item.getName(), "price": item.getPrice()}
-            for item in self.items
-        ]
+        items_dict = [item.asDict() for item in self.items]
         self.db.writeTableData("menu", items_dict)
 
     def addItem(self, item: MenuItem):
@@ -40,10 +37,11 @@ class MenuManager:
                 self.items[i] = item
         self._saveItemsToDB()
 
-    def getItem(self, id: int) -> MenuItem:
+    def getItem(self, id: int) -> Optional[MenuItem]:
         for i in range(0, len(self.items)):
             if self.items[i].id == id:
                 return self.items[i]
+        return None
 
     def getAllItems(self) -> List[MenuItem]:
         return self.items

@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Optional
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Reservation import Reservation
-from MainClasses.Table import Table
 from Managers.TableManager import TableManager
+
 
 class ReservationManager:
 
@@ -17,9 +17,13 @@ class ReservationManager:
         self.table_manager.readItemsFromDB()
         for reservation in reservation_dict:
             table = self.table_manager.getTable(reservation["id"])
-            self.reservations.append(
-                Reservation(reservation["id"], table, reservation.get("time_slot", None))
-            )
+
+            if table:
+                self.reservations.append(
+                    Reservation(reservation["id"], table, reservation["time_slot"])
+                )
+            else:
+                print("Found table with an invalid table.")
 
     def _saveItemsToDB(self):
         reservation_dict = [reservation.asDict() for reservation in self.reservations]
@@ -28,17 +32,6 @@ class ReservationManager:
     def addReservation(self, reservation: Reservation):
         self.reservations.append(reservation)
         self._saveItemsToDB()
-
-    # def editReservation(self, reservation_id: int, table_id: int, time_slot: str):
-    #     reservations = []
-    #     for res in self.reservations:
-    #         if res.getId() == reservation_id:
-    #             res.setTable(Table(table_id, "free"))
-    #             res.setTimeSlot(time_slot)
-    #         res = res.asDict()
-    #         reservations.append(res)
-    #     self.db.writeTableData("reservation", reservations)
-    #     return True
 
     def removeReservation(self, id: int):
         for i in range(0, len(self.reservations)):
@@ -59,7 +52,8 @@ class ReservationManager:
         self.readItemsFromDB()
         return self.reservations
 
-    def getReservation(self, id: int) -> Reservation:
+    def getReservation(self, id: int) -> Optional[Reservation]:
         for i in range(0, len(self.reservations)):
             if self.reservations[i].id == id:
                 return self.reservations[i]
+        return None

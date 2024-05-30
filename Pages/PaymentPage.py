@@ -1,32 +1,33 @@
+import os
+
 from DatabaseConnection import DatabaseConnection
-from Pages.Page import Page
-from MainClasses.PaymentMethod import PaymentMethod
 from MainClasses.Card import Card
 from MainClasses.Cash import Cash
 from MainClasses.GiftCard import GiftCard
-import os
+from Managers.LoginManager import LoginManager
+from Pages.Page import Page
 
 db = DatabaseConnection()
 
+
 class PaymentPage(Page):
     @staticmethod
-    def display(login_manager):
-        payment_methods = [
-            Card(),
-            Cash(),
-            GiftCard()
-        ]
+    def display(login_manager: LoginManager) -> bool:
+        payment_methods = [Card(), Cash(), GiftCard()]
 
         options = [method.name for method in payment_methods]
         while True:
-            selection_index = PaymentPage.show_options(options, "Payment Menu: ", "Return")
+            selection_index = PaymentPage.show_options(
+                options, "Payment Menu: ", "Return"
+            )
             if selection_index is not None and selection_index != -1:
                 selected_method = payment_methods[selection_index]
-                os.system('cls' if os.name == 'nt' else 'clear')
+                os.system("cls" if os.name == "nt" else "clear")
                 PaymentPage.make_payment(selected_method)
-                options=[]
+                options = []
             else:
                 break
+        return True
 
     @staticmethod
     def show_options(options, title, return_option):

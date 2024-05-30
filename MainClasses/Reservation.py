@@ -1,9 +1,8 @@
-from datetime import datetime
 from MainClasses.Table import Table
 
 
 class Reservation:
-    def __init__(self, id: int, table: Table, time_slot):
+    def __init__(self, id: int, table: Table, time_slot: str):
         self.id: int = id
         self.table: Table = table
         self.time_slot = time_slot
@@ -28,7 +27,7 @@ class Reservation:
 
     def asDict(self):
         return {
-            'id': self.id,
-            'tableId': self.table.getId(),
-            'time_slot': self.time_slot,
+            "id": self.id,
+            "tableId": self.table.getId(),
+            "time_slot": self.time_slot,
         }

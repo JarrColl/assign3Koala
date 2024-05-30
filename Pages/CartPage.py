@@ -19,7 +19,7 @@ class CartPage:
     def __init__(self):
         self.cart = Cart()
 
-    def display(self, login_manager):
+    def display(self):
         while True:
             os.system("cls" if os.name == "nt" else "clear")
             selection_index = OptionSelection.show(
@@ -58,4 +58,3 @@ class CartPage:
 
                 case -1:
                     break
-

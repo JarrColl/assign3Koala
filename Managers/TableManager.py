@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Table import Table
@@ -15,9 +15,7 @@ class TableManager:
         self.tables = [Table(table["id"], table["status"]) for table in table_dict]
 
     def _saveItemsToDB(self):
-        table_dict = [
-            {"id": table.getID(), "status": table.getStatus()} for table in self.tables
-        ]
+        table_dict = [table.asDict() for table in self.tables]
         self.db.writeTableData("tables", table_dict)
 
     def addTable(self, table: Table):
@@ -39,7 +37,8 @@ class TableManager:
     def getTables(self) -> List[Table]:
         return self.tables
 
-    def getTable(self, id: int) -> Table:
+    def getTable(self, id: int) -> Optional[Table]:
         for i in range(0, len(self.tables)):
             if self.tables[i].getId() == id:
                 return self.tables[i]
+        return None

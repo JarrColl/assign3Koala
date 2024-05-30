@@ -1,22 +1,19 @@
 import os
-from typing import List
+from typing import List, Literal
 
 from DatabaseConnection import DatabaseConnection
 from Managers.LoginManager import LoginManager
 from OptionSelection import OptionSelection
-from Pages.LoginPage import LoginPage
-
 from Pages.DeliveryPage import DeliveryPage
 from Pages.KitchenPage import KitchenPage
+from Pages.LoginPage import LoginPage
 from Pages.MenuPage import MenuPage
 from Pages.OrderPage import OrderPage
-
+from Pages.Page import Page
 from Pages.ReservationPage import ReservationPage
 from Pages.StaffPage import StaffPage
-from Pages.Page import Page
 from Pages.StatisticsPage import StatisticsPage
 from Pages.TablePage import TablePage
-
 
 CUSTOMER_OPTIONS: List[str] = ["View the Menu"]
 STAFF_OPTIONS: List[str] = [
@@ -30,14 +27,23 @@ STAFF_OPTIONS: List[str] = [
     "Item Statistics",
 ]
 CUSTOMER_PAGES: List[Page] = [MenuPage]
-STAFF_PAGES: List[Page] = [DeliveryPage, KitchenPage, MenuPage, OrderPage, ReservationPage, None, TablePage, StatisticsPage]
+STAFF_PAGES: List[Page] = [
+    DeliveryPage,
+    KitchenPage,
+    MenuPage,
+    OrderPage,
+    ReservationPage,
+    StaffPage,
+    TablePage,
+    StatisticsPage,
+]
 
 db = DatabaseConnection()
 login_manager = LoginManager(db)
 
 os.system("cls" if os.name == "nt" else "clear")
 # Check if staff or customer
-user_type = None
+user_type: Literal["customer", "staff"]
 while True:
     user_input = input("Are you a customer? (y/n): ")
     if user_input == "y":
@@ -47,8 +53,8 @@ while True:
         user_type = "staff"
         break
 
-options_list: List[str] = None
-page_list: List[Page] = None
+options_list: List[str]
+page_list: List[Page]
 if user_type == "staff":
     LoginPage.display(login_manager)
     options_list = STAFF_OPTIONS

@@ -18,3 +18,6 @@ class MenuItem:
 
     def setPrice(self, price: float):
         self.price = price
+
+    def asDict(self):
+        return {"id": self.id, "name": self.name, "price": self.price}

@@ -11,10 +11,12 @@
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Order import Order
+from Managers.LoginManager import LoginManager
 from Managers.TableManager import TableManager
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
+
 # from Pages.PaymentPage import PaymentPage
 
 db = DatabaseConnection()
@@ -25,7 +27,8 @@ VIEW_ORDER_OPTIONS = ["Pay for Order"]
 
 
 class OrderPage(Page):
-    def display(self, login_manager):
+    @staticmethod
+    def display(login_manager: LoginManager) -> bool:
         while True:
             selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
 
@@ -36,15 +39,18 @@ class OrderPage(Page):
                     OrderPage.viewOrder()
                 case -1:
                     break
+        return True
 
     @staticmethod
     def createOrder():
-        #TODO: ASK ABOUT ADDING DELIVERY OR NOT
+        # TODO: ASK ABOUT ADDING DELIVERY OR NOT
         order_dict = db.getTableData("orders")
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
         table_id = OptionSelection.show(
-            [table["id"] for table in tables], "What table is the order for?", "Cancel"
+            [str(table.getId()) for table in tables],
+            "What table is the order for?",
+            "Cancel",
         )
         if table_id == -1:
             return
@@ -52,6 +58,16 @@ class OrderPage(Page):
         cart = CartPage.display()
         new_order = Order(cart, table_id)
         order_dict.append(new_order.asDict())
+
+        while True:
+            do_delivery = input(
+                "Do you want to create a delivery for this order?(y/n): "
+            )
+            if do_delivery == "y":
+                pass
+            elif do_delivery == "n":
+                break
+
         db.writeTableData("orders", order_dict)
 
     @staticmethod
@@ -70,11 +86,13 @@ class OrderPage(Page):
         order_index = OptionSelection.show(order_list, "Select an Order", "Return.")
         order: Order = order_dict[order_index]
 
-        view_order_option = OptionSelection(VIEW_ORDER_OPTIONS, f"Order: { order.getId() }", "Cancel")
-        if view_order_option == 0: # Pay for order
+        view_order_option = OptionSelection.show(
+            VIEW_ORDER_OPTIONS, f"Order: { order.getId() }", "Cancel"
+        )
+        if view_order_option == 0:  # Pay for order
             pass
-            #TODO: uncomment when ryan finishes the payment page
+            # TODO: uncomment when ryan finishes the payment page
             # if PaymentPage.display():
-                # order.setStatus("Paid")
-        else: 
+            # order.setStatus("Paid")
+        else:
             return

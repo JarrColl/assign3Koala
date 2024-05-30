@@ -6,10 +6,8 @@ from typing import List
 
 from DatabaseConnection import DatabaseConnection
 from MainClasses.Cart import Cart
-from MainClasses.MenuItem import MenuItem
 from MainClasses.Order import Order
 from Managers.MenuManager import MenuManager
-from OptionSelection import OptionSelection
 from Pages.Page import Page
 
 db = DatabaseConnection()
@@ -22,7 +20,8 @@ class KitchenPage(Page):
     def clear_screen():
         os.system("cls" if os.name == "nt" else "clear")
 
-    def display(login_manager):
+    @staticmethod
+    def display(login_manager) -> bool:
         order_dict = db.getTableData("orders")
         menu_manager.readItemsFromDB()
         paid_orders = [
@@ -40,7 +39,7 @@ class KitchenPage(Page):
                     menu_manager.getAllItems(),
                 )
             )
-            #print(menu_items)
+            # print(menu_items)
             cart = Cart()
             for item in menu_items:
                 cart.addItem(item)
@@ -48,9 +47,10 @@ class KitchenPage(Page):
                 Order(cart, order["table_id"], order["id"], order["status"])
             )
 
-        KitchenPage.printOrder(order_list)
+        KitchenPage.printOrders(order_list)
 
-    def printOrder(order_list):
+    @staticmethod
+    def printOrders(order_list):
         while True:
             founded = False
             if (len(order_list)) == 0:
@@ -97,14 +97,15 @@ class KitchenPage(Page):
                         "!!!!Invalid input, please enter 'q' to exit or 'u' to update order status.!!!!"
                     )
 
+    @staticmethod
     def printItems(menu_items):
-
         for item in menu_items:
             id_str = str(item.getId())
             name_str = item.getName()
             price_str = str(item.getPrice())
             print(f"Item ID: {id_str} - Name: {name_str} - Price: {price_str}")
 
+    @staticmethod
     def update_order_status(order_id: str, new_status: str):
         order_dict = db.getTableData("orders")
 

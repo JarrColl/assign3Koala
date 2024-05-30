@@ -1,10 +1,14 @@
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
+
+from Managers.LoginManager import LoginManager
+
 
 class Page(ABC):
     """
     The Page interface declares display operations so that child classes can be passed to a common function when moving through the interface.
     """
 
+    @staticmethod
     @abstractmethod
-    def display(self, login_manager) -> bool:
+    def display(login_manager: LoginManager) -> bool:
         pass

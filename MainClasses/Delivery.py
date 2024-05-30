@@ -1,13 +1,16 @@
+from typing import Optional
+
 from MainClasses.DeliveryDriver import DeliveryDriver
 from MainClasses.Order import Order
 
+
 class Delivery:
 
-    def __init__(self, id: int, order: Order, isDelivered: bool):
+    def __init__(self, id: int, order: Order, address: str, isDelivered: bool = False):
         self.id: int = id
-        self.isDelivered: str = isDelivered
-        self.delivery_driver: DeliveryDriver = None
+        self.delivery_driver: Optional[DeliveryDriver] = None
         self.order: Order = order
+        self.isDelivered: bool = isDelivered
 
     def getId(self) -> int:
         return self.id
@@ -21,8 +24,8 @@ class Delivery:
     def setDeliveryDriver(self, driver: DeliveryDriver):
         self.driver = driver
 
-    def getIsDelivered(self) -> str:
+    def getIsDelivered(self) -> bool:
         return self.isDelivered
 
-    def setIsDelivered(self, isDelivered: str):
+    def setIsDelivered(self, isDelivered: bool):
         self.isDelivered = isDelivered

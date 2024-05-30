@@ -1,8 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 
 class OptionSelection:
-    def show(options: List[str], prompt: str = None, back_msg: str = None):
+    @staticmethod
+    def show(
+        options: List[str], prompt: Optional[str] = None, back_msg: Optional[str] = None
+    ):
         if prompt:
             print(prompt)
 

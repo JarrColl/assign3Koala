@@ -3,12 +3,13 @@
 # Delete Reservation
 # Edit Reservation
 import os
+
 from DatabaseConnection import DatabaseConnection
-from Pages.Page import Page
 from MainClasses.Reservation import Reservation
 from MainClasses.Table import Table
+from Managers.LoginManager import LoginManager
 from Managers.ReservationManager import ReservationManager
-from typing import List
+from Pages.Page import Page
 
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)
@@ -17,11 +18,12 @@ reservation_list = reservation_manager.getReservations()
 
 class ReservationPage(Page):
 
-
+    @staticmethod
     def clear_screen():
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
-    def display(login_manager):
+    @staticmethod
+    def display(login_manager: LoginManager) -> bool:
         while True:
             ReservationPage.clear_screen()
             ReservationPage.printReservation()
@@ -39,14 +41,23 @@ class ReservationPage(Page):
             elif user_input == "r":
                 ReservationPage.clear_screen()
                 ReservationPage.removeReservation()
+        return True
 
-
+    @staticmethod
     def printReservation():
         for reservation in reservation_list:
-            print('----------Reservation ID: ' + str(reservation.getId()) + "----------")
-            print('Table ID: ' + str(reservation.getTable().getId()) + "   |   Time Slot: " + reservation.getTimeSlot())
-        print('_____________________________________')
+            print(
+                "----------Reservation ID: " + str(reservation.getId()) + "----------"
+            )
+            print(
+                "Table ID: "
+                + str(reservation.getTable().getId())
+                + "   |   Time Slot: "
+                + reservation.getTimeSlot()
+            )
+        print("_____________________________________")
 
+    @staticmethod
     def getTimeSlot():
         time_slots = ["Breakfast Hour", "Lunch Hour", "Dinner Hour"]
         print("Available Time Slots:")
@@ -59,12 +70,20 @@ class ReservationPage(Page):
             return None
         return time_slots[time_slot_index]
 
+    @staticmethod
     def getAvailableTables(time_slot):
         table_dict = db.getTableData("tables")
-        reserved_table_ids = [res.getTable().getId() for res in reservation_list if res.getTimeSlot() == time_slot]
-        available_tables = [table for table in table_dict if table['id'] not in reserved_table_ids]
+        reserved_table_ids = [
+            res.getTable().getId()
+            for res in reservation_list
+            if res.getTimeSlot() == time_slot
+        ]
+        available_tables = [
+            table for table in table_dict if table["id"] not in reserved_table_ids
+        ]
         return available_tables
 
+    @staticmethod
     def addReservation():
         time_slot = ReservationPage.getTimeSlot()
         if not time_slot:
@@ -88,14 +107,14 @@ class ReservationPage(Page):
             return
 
         table_id = int(table_id_input)
-        if table_id not in [table['id'] for table in available_tables]:
+        if table_id not in [table["id"] for table in available_tables]:
             print("Invalid Table ID.")
             input("Press Enter to continue...")
             ReservationPage.clear_screen()
             return
 
         reserved_table = Table(table_id, "occupied")
-        new_reservation_id = reservation_list[len(reservation_list)-1].getId() + 1
+        new_reservation_id = reservation_list[len(reservation_list) - 1].getId() + 1
         if new_reservation_id:
             rev = Reservation(new_reservation_id, reserved_table, time_slot)
             reservation_manager.addReservation(rev)
@@ -105,7 +124,7 @@ class ReservationPage(Page):
         input("Press Enter to continue...")
         return
 
-
+    @staticmethod
     def editReservation():
         if not reservation_list:
             print("No reservations found.")
@@ -114,7 +133,9 @@ class ReservationPage(Page):
 
         ReservationPage.printReservation()
         reservation_id = int(input("Enter the Reservation ID to edit: ").strip())
-        reservation = next((res for res in reservation_list if res.getId() == reservation_id), None)
+        reservation = next(
+            (res for res in reservation_list if res.getId() == reservation_id), None
+        )
         if not reservation:
             print("Invalid Reservation ID.")
             input("Press Enter to continue...")
@@ -135,18 +156,21 @@ class ReservationPage(Page):
             print(f"Table ID: {table['id']} Status: {table['status']}")
 
         new_table_id = int(input("Enter the new Table ID: ").strip())
-        if new_table_id not in [table['id'] for table in available_tables]:
+        if new_table_id not in [table["id"] for table in available_tables]:
             print("Invalid Table ID.")
             input("Press Enter to continue...")
             return
 
-        new_reservation = (Reservation(reservation_id, Table(new_table_id, "free"), time_slot))
+        new_reservation = Reservation(
+            reservation_id, Table(new_table_id, "free"), time_slot
+        )
         if reservation_manager.editReservation(new_reservation):
             print(f"Reservation {reservation_id} updated successfully.")
         else:
             print("Failed to update reservation.")
         input("Press Enter to continue...")
 
+    @staticmethod
     def removeReservation():
         if not reservation_list:
             print("No reservations found.")
@@ -163,7 +187,9 @@ class ReservationPage(Page):
             return
 
         reservation_id = int(reservation_id_input)
-        reservation = next((res for res in reservation_list if res.getId() == reservation_id), None)
+        reservation = next(
+            (res for res in reservation_list if res.getId() == reservation_id), None
+        )
         if not reservation:
             print("Invalid Reservation ID.")
             input("Press Enter to continue...")
@@ -174,5 +200,3 @@ class ReservationPage(Page):
         else:
             print("Failed to remove reservation.")
         input("Press Enter to continue...")
-
-    

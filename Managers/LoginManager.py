@@ -1,6 +1,6 @@
 from DatabaseConnection import DatabaseConnection
-from MainClasses.Staff import Staff
 from MainClasses.Role import Role
+from MainClasses.Staff import Staff
 
 
 class LoginManager:
@@ -23,12 +23,14 @@ class LoginManager:
         if staff_dict:
             role_list = self.db.getTableData("roles")
             role_dict = next(
-                (
-                    role for role in role_list
-                    if (role["id"] == staff_dict["id"])
-                ),
+                (role for role in role_list if (role["id"] == staff_dict["id"])),
                 None,
             )
+
+            if not role_dict:
+                print("the user accounts role is invalid, speak to your administrator")
+                return False
+
             role = Role(role_dict["id"], role_dict["name"], role_dict["description"])
             self.staff = Staff(staff_dict["id"], staff_dict["name"], role)
             return True
