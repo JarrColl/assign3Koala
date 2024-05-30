@@ -1,0 +1,5 @@
+[
+    {"name": "Breakfast Hour", "time_ranges": "7:00 AM - 10:00 AM"},
+    {"name": "Lunch Hour", "time_ranges": "12:00 PM - 2:00 PM"},
+    {"name": "Dinner Hour", "time_ranges": "6:00 PM - 9:00 PM"}
+]

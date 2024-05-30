@@ -1,7 +1,7 @@
 [
-  { "id": 1, "status": "occupied" },
+  { "id": 1, "status": "free"},
   { "id": 2, "status": "free" },
-  { "id": 3, "status": "occupied" },
+  { "id": 3, "status": "free"},
   { "id": 4, "status": "free" },
   { "id": 5, "status": "free" },
   { "id": 6, "status": "free" }

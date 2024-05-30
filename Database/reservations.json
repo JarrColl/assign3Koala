@@ -1,1 +1,1 @@
-[{"id": 1, "tableId": 2, "time_slot": null}, {"id": 2, "tableId": 3, "time_slot": null}]
+[{"id": 7, "tableId": 5, "time_slot": "Dinner Hour"}, {"id": 8, "tableId": 1, "time_slot": "Breakfast Hour"}, {"id": 9, "tableId": 2, "time_slot": "Breakfast Hour"}]

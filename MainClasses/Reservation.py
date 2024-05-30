@@ -22,7 +22,10 @@ class Reservation:
 
     def getTimeSlot(self):
         return self.time_slot
-    
+
+    def setTimeSlot(self, time_slot: str):
+        self.time_slot = time_slot
+
     def asDict(self):
         return {
             'id': self.id,

@@ -27,14 +27,15 @@ class ReservationManager:
 
     def addReservation(self, reservation: Reservation):
         self.reservations.append(reservation)
-        self._saveItemsToDb()
+        self._saveItemsToDB()
 
-    # def editReservation(self, reservation_id: int, table_id: int):
+    # def editReservation(self, reservation_id: int, table_id: int, time_slot: str):
     #     reservations = []
     #     for res in self.reservations:
     #         if res.getId() == reservation_id:
-    #             res.setTable(Table(table_id, "occupied"))
-    #         res = self.to_dict(res)
+    #             res.setTable(Table(table_id, "free"))
+    #             res.setTimeSlot(time_slot)
+    #         res = res.asDict()
     #         reservations.append(res)
     #     self.db.writeTableData("reservation", reservations)
     #     return True
@@ -43,15 +44,19 @@ class ReservationManager:
         for i in range(0, len(self.reservations)):
             if self.reservations[i].id == id:
                 del self.reservations[i]
+                break
         self._saveItemsToDB()
+        return True
 
     def editReservation(self, reservation: Reservation):
         for i in range(0, len(self.reservations)):
             if self.reservations[i].id == reservation.id:
                 self.reservations[i] = reservation
         self._saveItemsToDB()
+        return True
 
     def getReservations(self):
+        self.readItemsFromDB()
         return self.reservations
 
     def getReservation(self, id: int) -> Reservation:

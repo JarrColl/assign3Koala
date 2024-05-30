@@ -22,7 +22,6 @@ class ReservationPage(Page):
         os.system('cls' if os.name == 'nt' else 'clear')
 
     def display(login_manager):
-        table_dict = db.getTableData("tables")
         while True:
             ReservationPage.clear_screen()
             ReservationPage.printReservation()
@@ -45,16 +44,35 @@ class ReservationPage(Page):
     def printReservation():
         for reservation in reservation_list:
             print('----------Reservation ID: ' + str(reservation.getId()) + "----------")
-
-            print('Table ID: ' + str(reservation.getTable().getId()) + "   |   Status: " + reservation.getTable().getStatus())
+            print('Table ID: ' + str(reservation.getTable().getId()) + "   |   Time Slot: " + reservation.getTimeSlot())
         print('_____________________________________')
 
+    def getTimeSlot():
+        time_slots = ["Breakfast Hour", "Lunch Hour", "Dinner Hour"]
+        print("Available Time Slots:")
+        for idx, slot in enumerate(time_slots):
+            print(f"{idx + 1}. {slot}")
+        time_slot_index = int(input("Choose a time slot (number): ").strip()) - 1
+        if time_slot_index not in range(len(time_slots)):
+            print("Invalid time slot choice.")
+            input("Press Enter to continue...")
+            return None
+        return time_slots[time_slot_index]
+
+    def getAvailableTables(time_slot):
+        table_dict = db.getTableData("tables")
+        reserved_table_ids = [res.getTable().getId() for res in reservation_list if res.getTimeSlot() == time_slot]
+        available_tables = [table for table in table_dict if table['id'] not in reserved_table_ids]
+        return available_tables
 
     def addReservation():
-        table_dict = db.getTableData("tables")
-        available_tables = [table for table in table_dict if table['status'] == 'free']
+        time_slot = ReservationPage.getTimeSlot()
+        if not time_slot:
+            return
+
+        available_tables = ReservationPage.getAvailableTables(time_slot)
         if not available_tables:
-            print("No available tables.")
+            print("No available tables for this time slot.")
             input("Press Enter to continue...")
             return
 
@@ -77,13 +95,9 @@ class ReservationPage(Page):
             return
 
         reserved_table = Table(table_id, "occupied")
-        for table in table_dict:
-            if table['id'] == table_id:
-                table['status'] = 'occupied'
-        db.writeTableData("tables", table_dict)
-        new_reservation_id = len(reservation_list) + 1
+        new_reservation_id = reservation_list[len(reservation_list)-1].getId() + 1
         if new_reservation_id:
-            rev = Reservation(new_reservation_id, reserved_table)
+            rev = Reservation(new_reservation_id, reserved_table, time_slot)
             reservation_manager.addReservation(rev)
             print(f"Reservation created with ID: {new_reservation_id}")
         else:
@@ -93,7 +107,6 @@ class ReservationPage(Page):
 
 
     def editReservation():
-        table_dict = db.getTableData("tables")
         if not reservation_list:
             print("No reservations found.")
             input("Press Enter to continue...")
@@ -102,15 +115,18 @@ class ReservationPage(Page):
         ReservationPage.printReservation()
         reservation_id = int(input("Enter the Reservation ID to edit: ").strip())
         reservation = next((res for res in reservation_list if res.getId() == reservation_id), None)
-        old_table_id = reservation.getTable().getId()
         if not reservation:
             print("Invalid Reservation ID.")
             input("Press Enter to continue...")
             return
 
-        available_tables = [table for table in table_dict if table['status'] == 'free']
+        time_slot = ReservationPage.getTimeSlot()
+        if not time_slot:
+            return
+
+        available_tables = ReservationPage.getAvailableTables(time_slot)
         if not available_tables:
-            print("No available tables.")
+            print("No available tables for this time slot.")
             input("Press Enter to continue...")
             return
 
@@ -124,21 +140,14 @@ class ReservationPage(Page):
             input("Press Enter to continue...")
             return
 
-        if reservation_manager.editReservation(Reservation(reservation_id, new_table_id)):
-            for table in table_dict:
-                if table['id'] == old_table_id:
-                    table['status'] = "free"
-                if table['id'] == new_table_id:
-                    table['status'] = 'occupied'
-            db.writeTableData("tables", table_dict)
+        new_reservation = (Reservation(reservation_id, Table(new_table_id, "free"), time_slot))
+        if reservation_manager.editReservation(new_reservation):
             print(f"Reservation {reservation_id} updated successfully.")
         else:
             print("Failed to update reservation.")
         input("Press Enter to continue...")
 
-
     def removeReservation():
-        table_dict = db.getTableData("tables")
         if not reservation_list:
             print("No reservations found.")
             input("Press Enter to continue...")
@@ -161,16 +170,9 @@ class ReservationPage(Page):
             return
 
         if reservation_manager.removeReservation(reservation_id):
-            table_id = reservation.getTable().getId()
-            for table in table_dict:
-                if table['id'] == table_id:
-                    table['status'] = 'free'
-            db.writeTableData("tables", table_dict)
             print(f"Reservation {reservation_id} removed successfully.")
         else:
             print("Failed to remove reservation.")
         input("Press Enter to continue...")
 
-
-
-
+    
