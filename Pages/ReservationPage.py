@@ -13,7 +13,7 @@ from Pages.Page import Page
 
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)
-reservation_manager.readItemsFromDB()
+#reservation_manager.readItemsFromDB()
 reservation_list = reservation_manager.getAllReservations()
 
 
