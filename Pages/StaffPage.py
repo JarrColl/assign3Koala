@@ -16,7 +16,7 @@ class StaffPage:
             staff_data = db.getTableData("staff")
             StaffPage.print_staff_info(staff_data)
         while True:
-            return OptionSelection.show([], "Delivery Menu: ", "Return")
+            return OptionSelection.show([], "Menu: ", "Return")
 
 
 
