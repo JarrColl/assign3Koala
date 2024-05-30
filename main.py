@@ -14,6 +14,7 @@ from Pages.OrderPage import OrderPage
 from Pages.ReservationPage import ReservationPage
 from Pages.StaffPage import StaffPage
 from Pages.Page import Page
+from Pages.StatisticsPage import StatisticsPage
 from Pages.TablePage import TablePage
 
 
@@ -26,9 +27,10 @@ STAFF_OPTIONS: List[str] = [
     "Reservations",
     "Staff Management",
     "Table Management",
+    "Item Statistics",
 ]
 CUSTOMER_PAGES: List[Page] = [MenuPage]
-STAFF_PAGES: List[Page] = [DeliveryPage, KitchenPage, MenuPage, OrderPage, ReservationPage, StaffPage, TablePage]
+STAFF_PAGES: List[Page] = [DeliveryPage, KitchenPage, MenuPage, OrderPage, ReservationPage, None, TablePage, StatisticsPage]
 
 db = DatabaseConnection()
 login_manager = LoginManager(db)

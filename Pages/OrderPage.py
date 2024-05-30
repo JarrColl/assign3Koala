@@ -39,6 +39,7 @@ class OrderPage(Page):
 
     @staticmethod
     def createOrder():
+        #TODO: ASK ABOUT ADDING DELIVERY OR NOT
         order_dict = db.getTableData("orders")
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
