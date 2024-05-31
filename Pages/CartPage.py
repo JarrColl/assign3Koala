@@ -22,6 +22,8 @@ class CartPage:
     def display(self):
         while True:
             os.system("cls" if os.name == "nt" else "clear")
+            self.printCurrentCart()
+
             selection_index = OptionSelection.show(
                 INIT_OPTIONS, "Cart Menu Options: ", "Cancel"
             )
@@ -29,33 +31,63 @@ class CartPage:
 
             match selection_index:
                 case 0:
-                    item_list = [
-                        item.name + " - $" + str(item.price)
-                        for item in menu_manager.getAllItems()
-                    ]
-                    item_index = OptionSelection.show(
-                        item_list, "Select an Item to add: ", "Cancel"
-                    )
-                    if item_index > -1:
-                        self.cart.addItem(menu_manager.getAllItems()[item_index])
-
+                    self.addItem()
                 case 1:
-                    if len(self.cart.getAllItems()) > 0:
-                        item_list = [
-                            item.name + " - $" + str(item.price)
-                            for item in self.cart.getAllItems()
-                        ]
-                        item_index = OptionSelection.show(
-                            item_list, "Select an Item to add: ", "Cancel"
-                        )
-                        if item_index > -1:
-                            self.cart.removeItem(item_index)
-                    else:
-                        print("There are no items to remove.")
-
+                    self.removeItem()
                 case 2:
                     return self.cart
 
                 case -1:
                     break
         return None
+
+    def printCurrentCart(self):
+        if len(self.cart.getAllItems()) > 0:
+            print("-----------------------------")
+            print("Current Cart")
+            for item in self.cart.getAllItems():
+                print(f"{item.getName()} - {item.getPrice()}")
+            print("-----------------------------")
+
+    def addItem(self):
+        item_list = [
+            item.name + " - $" + str(item.price) for item in menu_manager.getAllItems()
+        ]
+        while True:
+            self.printCurrentCart()
+            item_index = OptionSelection.show(
+                item_list, "Select an Item to add: ", "Done"
+            )
+            if item_index > -1:
+                item = menu_manager.getItem(item_index)
+                if not item:
+                    break
+                self.cart.addItem(item)
+                os.system("cls" if os.name == "nt" else "clear")
+                print(f"Added {item.getName()}.")
+            else:
+                break
+
+    def removeItem(self):
+        if len(self.cart.getAllItems()) > 0:
+            while True:
+                item_list = [
+                    item.name + " - $" + str(item.price)
+                    for item in self.cart.getAllItems()
+                ]
+                self.printCurrentCart()
+                item_index = OptionSelection.show(
+                    item_list, "Select an Item to remove: ", "Done"
+                )
+                if item_index > -1:
+                    self.cart.removeItem(item_index)
+                    os.system("cls" if os.name == "nt" else "clear")
+                    item = self.cart.getItem(item_index)
+                    if not item:
+                        break
+                    print(f"Removed {item.getName()}.")
+                else:
+                    break
+
+        else:
+            print("There are no items to remove.")

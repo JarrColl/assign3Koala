@@ -9,11 +9,12 @@ from MainClasses.Reservation import Reservation
 from MainClasses.Table import Table
 from Managers.LoginManager import LoginManager
 from Managers.ReservationManager import ReservationManager
+from OptionSelection import OptionSelection
 from Pages.Page import Page
 
 db = DatabaseConnection()
 reservation_manager = ReservationManager(db)
-#reservation_manager.readItemsFromDB()
+# reservation_manager.readItemsFromDB()
 reservation_list = reservation_manager.getAllReservations()
 
 
@@ -61,18 +62,17 @@ class ReservationPage(Page):
     @staticmethod
     def getTimeSlot():
         time_slots = ["Breakfast Hour", "Lunch Hour", "Dinner Hour"]
-        print("Available Time Slots:")
-        for idx, slot in enumerate(time_slots):
-            print(f"{idx + 1}. {slot}")
-        time_slot_index = int(input("Choose a time slot (number): ").strip()) - 1
-        if time_slot_index not in range(len(time_slots)):
-            print("Invalid time slot choice.")
-            input("Press Enter to continue...")
-            return None
+        time_slot_index = OptionSelection.show(
+            time_slots, "Choose a time slot: ", "Cancel"
+        )
+        if time_slot_index == -1:
+            return
+
         return time_slots[time_slot_index]
 
     @staticmethod
     def getAvailableTables(time_slot):
+        ReservationPage.clear_screen()
         table_dict = db.getTableData("tables")
         reserved_table_ids = [
             res.getTable().getId()

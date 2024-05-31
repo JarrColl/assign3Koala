@@ -30,7 +30,7 @@ class TableManager:
 
     def editTable(self, table: Table):
         for i in range(0, len(self.tables)):
-            if self.tables[i].getId() == id:
+            if self.tables[i].getId() == table.getId():
                 self.tables[i] = table
         self._saveItemsToDB()
 

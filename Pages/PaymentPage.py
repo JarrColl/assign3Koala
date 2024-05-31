@@ -20,14 +20,14 @@ class PaymentPage(Page):
             selection_index = PaymentPage.show_options(
                 options, "Payment Menu: ", "Return"
             )
-            if selection_index is not None and selection_index != -1:
+            if selection_index != -1:
                 selected_method = payment_methods[selection_index]
                 os.system("cls" if os.name == "nt" else "clear")
                 PaymentPage.make_payment(selected_method)
                 options = []
+                return True
             else:
-                break
-        return True
+                return False
 
     @staticmethod
     def show_options(options, title, return_option):

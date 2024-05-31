@@ -1,14 +1,14 @@
 class Role:
     def __init__(self, role_id: int, name: str, desc: str):
-        self._id: int = role_id
-        self._name: str = name
-        self._desc: str = desc
+        self.id: int = role_id
+        self.name: str = name
+        self.desc: str = desc
 
     def getId(self) -> int:
-        return self._id
+        return self.id
 
     def getName(self) -> str:
-        return self._name
+        return self.name
 
     def getDesc(self) -> str:
-        return self._desc
+        return self.desc

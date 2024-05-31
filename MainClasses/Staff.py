@@ -3,18 +3,21 @@ from MainClasses.Role import Role
 
 class Staff:
     def __init__(self, id, name: str, role: Role):
-        self._id: int = id
-        self._name: str = name
-        self._role: Role = role
+        self.id: int = id
+        self.name: str = name
+        self.role: Role = role
+
+    def getId(self) -> int:
+        return self.id
 
     def getName(self) -> str:
-        return self._name
+        return self.name
 
     def setName(self, name: str):
-        self._name = name
+        self.name = name
 
     def getRole(self) -> Role:
-        return self._role
+        return self.role
 
     def setRole(self, role: Role):
-        self._role = role
+        self.role = role

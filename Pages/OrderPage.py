@@ -9,21 +9,30 @@
 # Remember to mark the table associated with the order as occupied
 # when adding a delivery, randomly select a delivery driver
 
-from MainClasses.Delivery import Delivery
+import os
+from typing import List
+
 from DatabaseConnection import DatabaseConnection
+from MainClasses.Cart import Cart
+from MainClasses.Delivery import Delivery
+from MainClasses.MenuItem import MenuItem
 from MainClasses.Order import Order
 from Managers.LoginManager import LoginManager
+from Managers.MenuManager import MenuManager
 from Managers.TableManager import TableManager
 from OptionSelection import OptionSelection
 from Pages.CartPage import CartPage
 from Pages.Page import Page
+from Pages.PaymentPage import PaymentPage
 
 # from Pages.PaymentPage import PaymentPage
 
 db = DatabaseConnection()
 table_manager = TableManager(db)
+menu_manager = MenuManager(db)
+menu_manager.readItemsFromDB()
 
-ORDER_MENU = ["Create an Order", "Open an Order"]
+ORDER_MENU = ["Create an Order", "View an Order"]
 VIEW_ORDER_OPTIONS = ["Pay for Order"]
 
 
@@ -31,25 +40,35 @@ class OrderPage(Page):
     @staticmethod
     def display(login_manager: LoginManager) -> bool:
         while True:
+            os.system("cls" if os.name == "nt" else "clear")
             selection_index = OptionSelection.show(ORDER_MENU, "Order Menu: ", "Return")
+            os.system("cls" if os.name == "nt" else "clear")
 
             match selection_index:
                 case 0:  # Create an Order
                     OrderPage.createOrder()
                 case 1:
-                    OrderPage.viewOrder()
+                    OrderPage.viewOrder(login_manager)
                 case -1:
                     break
         return True
 
     @staticmethod
+    def printCart(items: List[MenuItem]):
+        if len(items) > 0:
+            print("-----------------------------")
+            print("Order Items")
+            for item in items:
+                print(f"{item.getName()} - {item.getPrice()}")
+            print("-----------------------------")
+
+    @staticmethod
     def createOrder():
-        # TODO: ASK ABOUT ADDING DELIVERY OR NOT
         order_dict = db.getTableData("orders")
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
         table_id = OptionSelection.show(
-            [str(table.getId()) for table in tables],
+            [str(table.getId()) + " - " + table.getStatus() for table in tables],
             "What table is the order for?",
             "Cancel",
         )
@@ -73,13 +92,20 @@ class OrderPage(Page):
                 deliveries = db.getTableData("deliveries")
                 deliveries.append(delivery.asDict())
                 db.writeTableData("deliveries", deliveries)
+
+                break
             elif do_delivery == "n":
                 break
 
+        table = table_manager.getTable(table_id)
+        if table:
+            table.setStatus("occupied")
+            table_manager.editTable(table)
         db.writeTableData("orders", order_dict)
 
     @staticmethod
-    def viewOrder():
+    def viewOrder(login_manager: LoginManager):
+        table_manager.readItemsFromDB()
         order_dict = db.getTableData("orders")
         order_list = [
             "Order ID: "
@@ -92,15 +118,41 @@ class OrderPage(Page):
         ]
 
         order_index = OptionSelection.show(order_list, "Select an Order", "Return.")
-        order: Order = order_dict[order_index]
+        if order_index == -1:
+            return
+        order = order_dict[order_index]
 
+        os.system("cls" if os.name == "nt" else "clear")
+        items = []
+        for item_id in order["menu_items"]:
+            item = menu_manager.getItem(item_id)
+            if item:
+                items.append(item)
+        OrderPage.printCart(items)
+
+        if order["status"] != "Paid":
+            view_options = VIEW_ORDER_OPTIONS
+        else:
+            view_options = []
         view_order_option = OptionSelection.show(
-            VIEW_ORDER_OPTIONS, f"Order: { order.getId() }", "Cancel"
+            view_options, f"Order: { order["id"] }", "Return"
         )
         if view_order_option == 0:  # Pay for order
-            pass
-            # TODO: uncomment when ryan finishes the payment page
-            # if PaymentPage.display():
-            # order.setStatus("Paid")
+            os.system("cls" if os.name == "nt" else "clear")
+            if PaymentPage.display(login_manager):
+                print("payment successfull")
+                order["status"] = "Paid"
+                order_dict[order_index] = order
+
+                table = table_manager.getTable(order["table_id"])
+                if table:
+                    table.setStatus("free")
+                    table_manager.editTable(table)
+
+
+                db.writeTableData("orders", order_dict)
+                input("Press enter to continue...")
+            else:
+                return
         else:
             return

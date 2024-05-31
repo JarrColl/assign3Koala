@@ -6,13 +6,19 @@ from MainClasses.Order import Order
 
 db = DatabaseConnection()
 
+
 class Delivery:
-    def __init__(self, order: Order, address: str, id: int = None, isDelivered: bool = False):
+    def __init__(
+        self, order: Order, address: str, id: int = None, isDelivered: bool = False
+    ):
         if id:
             self.id = id
         else:
-            delivery_dict = db.getTableData("delivery")
-            next_id = max(delivery_dict, key=lambda x: x["id"])["id"] + 1
+            delivery_dict = db.getTableData("deliveries")
+            if len(delivery_dict) > 0:
+                next_id = max(delivery_dict, key=lambda x: x["id"])["id"] + 1
+            else:
+                next_id = 0
             self.id: int = next_id
 
         self.address: str = address
@@ -40,9 +46,15 @@ class Delivery:
 
     def getAddress(self) -> str:
         return self.address
-    
+
     def setAddress(self, address: str):
         self.address = address
 
     def asDict(self):
-        return {"id": self.id, "address": self.address, "delivery_driver": self.delivery_driver, "order_id": self.order.getId(), "is_delivered": self.is_delivered}
+        return {
+            "id": self.id,
+            "address": self.address,
+            "delivery_driver": self.delivery_driver,
+            "order_id": self.order.getId(),
+            "is_delivered": self.is_delivered,
+        }

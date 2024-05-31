@@ -28,6 +28,6 @@ class Reservation:
     def asDict(self):
         return {
             "id": self.id,
-            "tableId": self.table.getId(),
+            "table_id": self.table.getId(),
             "time_slot": self.time_slot,
         }

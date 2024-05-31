@@ -12,7 +12,7 @@ class Order:
     def __init__(
         self,
         cart: Cart,
-        tableId: int,
+        table_id: int,
         id: Optional[int] = None,
         status: Literal["Cooking", "Cooked", "Paid"] = "Cooking",
     ):
@@ -20,12 +20,15 @@ class Order:
             self.id = id
         else:
             order_dict = db.getTableData("orders")
-            next_id = max(order_dict, key=lambda x: x["id"])["id"] + 1
+            if len(order_dict) > 0:
+                next_id = max(order_dict, key=lambda x: x["id"])["id"] + 1
+            else:
+                next_id = 0
             self.id: int = next_id
 
         self.menu_items: List[MenuItem] = cart.getAllItems()
         self.invoice: Optional[Invoice] = None
-        self.table: int = tableId
+        self.table: int = table_id
         self.status: Literal["Cooking", "Cooked", "Paid"] = status
 
     def getAllItems(self) -> List[MenuItem]:
@@ -56,9 +59,10 @@ class Order:
         return total
 
     def asDict(self):
+        menu_items = [item.getId() for item in self.menu_items]
         return {
             "id": self.id,
-            "menu_items": self.menu_items,
+            "menu_items": menu_items,
             "invoice_id": self.invoice,
             "table_id": self.table,
             "status": self.status,

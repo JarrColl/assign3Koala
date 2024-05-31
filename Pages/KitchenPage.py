@@ -1,7 +1,6 @@
 # List the orders that have status prepraring
 # Edit the status of order and save to database
 import os
-import time
 from typing import List
 
 from DatabaseConnection import DatabaseConnection
@@ -24,7 +23,7 @@ class KitchenPage(Page):
     def display(login_manager) -> bool:
         order_dict = db.getTableData("orders")
         menu_manager.readItemsFromDB()
-        paid_orders = [order for order in order_dict if (order["status"] != "Cooked")]
+        paid_orders = [order for order in order_dict if (order["status"] == "Cooking")]
         order_list: List[Order] = []
 
         for order in paid_orders:

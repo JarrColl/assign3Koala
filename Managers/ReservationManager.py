@@ -16,7 +16,7 @@ class ReservationManager:
         reservation_dict = self.db.getTableData("reservations")
         self.table_manager.readItemsFromDB()
         for reservation in reservation_dict:
-            table = self.table_manager.getTable(reservation["tableId"])
+            table = self.table_manager.getTable(reservation["table_id"])
 
             if table:
                 self.reservations.append(

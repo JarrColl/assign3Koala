@@ -11,7 +11,6 @@ class LoginManager:
 
     def login(self, username: str, password: str) -> bool:
         staff_list = self.db.getTableData("staff")
-        # TODO: When the staff object is created, use the read in data to create the staff object and store it.
         staff_dict = next(
             (
                 staff

@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List
+from typing import Dict, List
 
 
 class SingletonMeta(type):
@@ -31,7 +31,7 @@ class DatabaseConnection(metaclass=SingletonMeta):
                 file.write("[]")
         return open(file_path, mode)
 
-    def getTableData(self, name: str) -> List:
+    def getTableData(self, name: str) -> List[Dict]:
         return json.load(self._getFile(name, "r"))
 
     def writeTableData(self, name: str, data: List):

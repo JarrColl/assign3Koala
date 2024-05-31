@@ -15,9 +15,12 @@ class TablePage(Page):
     def display(login_manager: LoginManager) -> bool:
         table_manager.readItemsFromDB()
         tables = table_manager.getTables()
-        table_numbers = [
-            "| " + str(table.getId()) + " | " + table.getStatus() + " |"
-            for table in tables
-        ]
-        OptionSelection.show(table_numbers, "Pick a table number:")
+        print("| id | status |")
+        for table in tables:
+            print("| " + str(table.getId()) + " | " + table.getStatus() + " |")
+
+        while True:
+            value = input("Press 'q' to return: ")
+            if value == "q":
+                break
         return True
